@@ -1,3 +1,9 @@
+# vivliostyle
+themes/
+*.html
+publication.json
+*.pdf
+
 # Logs
 logs
 *.log
