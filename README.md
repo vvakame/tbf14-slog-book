@@ -1,4 +1,4 @@
-# Tbf14 Slog Book
+# 技術書典14 Goの次期標準構造化ログパッケージ slog解説
 
 description
 
