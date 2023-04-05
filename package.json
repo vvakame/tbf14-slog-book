@@ -1,0 +1,15 @@
+{
+  "name": "tbf-14slog-book",
+  "description": "tbf14-slog-book",
+  "version": "0.0.0",
+  "author": "vvakame <vvakame@gmail.com>",
+  "scripts": {
+    "build": "vivliostyle build",
+    "preview": "vivliostyle preview"
+  },
+  "dependencies": {
+    "@vivliostyle/cli": "latest"
+  },
+  "license": "MIT",
+  "private": true
+}
