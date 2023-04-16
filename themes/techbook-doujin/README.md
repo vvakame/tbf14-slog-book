@@ -1,31 +1,12 @@
-# Techbook
+# 技術同人誌っぽいテーマ
 
-[![](https://img.shields.io/npm/v/@vivliostyle/theme-techbook.svg)](https://npmjs.com/package/@vivliostyle/theme-techbook)
-[![npm: total downloads](https://flat.badgen.net/npm/dt/@vivliostyle/theme-techbook)](https://npmjs.com/package/@vivliostyle/theme-techbook)
-![npm: license](https://flat.badgen.net/npm/license/@vivliostyle/theme-techbook)
+[Vivliostyleの公式テーマをカスタマイズして、ゆめみ大技林 '22のテーマを作った](https://zenn.dev/macneko/articles/06aec138a357b9)の記事を参考にしたテーマです。
+独自の調整を加えたり加えなかったりしています。
 
-A techbook (技術同人誌) theme for Vivliostyle.
+このテーマの方針
 
-Source: https://github.com/akabekobeko/env-create-book/tree/master/src/scss
-
-## Install
-
-```bash
-npm install --save @vivliostyle/theme-techbook
-# or
-yarn add @vivliostyle/theme-techbook
-```
-
-## Use
-
-In `vivliostyle.config.js`:
-
-```js
-module.exports = {
-  theme: '@vivliostyle/theme-techbook',
-};
-```
-
-## License
-
-CC0 1.0
+* PDFで出力するが電子デバイス上での可読性を優先する
+  * A5判型がよい
+  * ページの左右を単ページで見た時にガタガタにならないよう小口とノドはほぼ同じ値にする
+* 見た目にあまりこだわらない
+  * 読者としての僕が見た目の些細な違いには全く気が付かないので
