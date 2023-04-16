@@ -3,7 +3,8 @@ module.exports = {
   author: 'vvakame <vvakame@gmail.com>', // default to `author` in `package.json` or undefined.
   language: 'ja', // default to undefined.
   size: 'A5', // paper size.
-  theme: '@vivliostyle/theme-techbook@^0.4.1', // .css or local dir or npm package. default to undefined.
+  // base theme: @vivliostyle/theme-techbook@^0.4.1 
+  theme: 'themes/techbook-doujin', // .css or local dir or npm package. default to undefined.
   entry: [
     'articles/index.md',
     'articles/manuscript.md', // `title` is automatically guessed from the file (frontmatter > first heading).

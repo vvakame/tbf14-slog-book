@@ -33,3 +33,14 @@ PDFをビルドしてみたけど、物理本をターゲットにしたスタ�
 https://vivliostyle.org/ja/make-books-with-create-book/
 
 https://docs.vivliostyle.org/#/ja/create-book
+
+[技術書典NFT](https://techbookfest.org/product/9GsUCh18KNL40JTqr4savb)のPDFを眺めてみる。
+こいつはいつもどおりの[TechBoosterのReVIEW-Template](https://github.com/TechBooster/ReVIEW-Template)製なので、こいつの見た目に近くなるのが期待値。
+いつもにやつに見た目似せたいならいつものでいいじゃん、という内なる声に屈していてはイノベーションなどないのだ、と克己していく。
+うーん、やっぱりノドと小口がほぼ同じだなぁ。
+
+というわけで、Vivliostyleでもなにか先達がいないかと思って「Vivliostyle ノド 小口」で検索すると次の記事が見つかった。
+https://zenn.dev/macneko/articles/06aec138a357b9
+ええやんこれで！！記事の最後とかでテーマ配布します！とか言い始めたら最高！と思いつつ読み勧めたけどそういうものはなかった。
+残念無念。
+
