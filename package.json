@@ -5,6 +5,7 @@
   "author": "vvakame <vvakame@gmail.com>",
   "scripts": {
     "build": "vivliostyle build",
+    "build:press": "vivliostyle build --press-ready",
     "preview": "vivliostyle preview"
   },
   "dependencies": {
