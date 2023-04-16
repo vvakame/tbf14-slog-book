@@ -16,3 +16,10 @@
 @import '_toc';
 
 /* and more... 🖋 */
+
+section#colophon {
+  position: relative;
+  float-reference: page;
+  float: bottom;
+  margin-bottom: 0;
+}

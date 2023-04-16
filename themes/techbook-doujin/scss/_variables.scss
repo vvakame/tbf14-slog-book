@@ -29,12 +29,20 @@ $font-family: 'Neue Frutiger World', 'Verdana', 'Yakumono', 'body',
 $master-font-size-for-print: 75%;
 
 // B5
-$page-width: 182mm;
-$page-height: 257mm;
+// $page-width: 182mm;
+// $page-height: 257mm;
+// $page-bleed: 3mm;
+// A5
+$page-width: 148mm;
+$page-height: 210mm;
 $page-bleed: 3mm;
 
 // Page
-$page-margin-top: 25mm;
-$page-margin-bottom: 39mm;
-$page-margin-outer: 18mm;
-$page-margin-inner: 35mm;
+// $page-margin-top: 25mm;
+// $page-margin-bottom: 39mm;
+// $page-margin-outer: 18mm;
+// $page-margin-inner: 35mm;
+$page-margin-top: 20mm; // 天
+$page-margin-bottom: 25mm; // 地
+$page-margin-outer: 16mm; // 小口（本の綴じていないほうのマージン）
+$page-margin-inner: 18mm; // のど（本の綴じているほうのマージン）

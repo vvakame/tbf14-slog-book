@@ -67,7 +67,7 @@
     widows: 3;
     orphans: 3;
     hyphens: auto;
-    font-size: 75%;
+    font-size: $master-font-size-for-print;
   }
 
   h1,
@@ -140,15 +140,15 @@
 
   @top-center {
     content: env(pub-title);
-    font-size: 75%;
+    font-size: $master-font-size-for-print;
     text-align: left;
-    padding: 12mm 2mm 0 2mm;
+    padding: 12mm 2mm 0 0mm;
   }
   @bottom-left {
     content: counter(page);
-    margin-top: 15mm;
+    margin-top: 7mm;
     margin-bottom: -$page-bleed;
-    padding: 0 2mm 15mm 2mm;
+    padding: 0 0mm 15mm 0mm;
   }
 }
 
@@ -159,14 +159,14 @@
 
   @top-center {
     content: env(doc-title);
-    font-size: 75%;
+    font-size: $master-font-size-for-print;
     text-align: right;
-    padding: 12mm 2mm 0 2mm;
+    padding: 12mm 0mm 0 0mm;
   }
   @bottom-right {
     content: counter(page);
-    margin-top: 15mm;
+    margin-top: 7mm;
     margin-bottom: -$page-bleed;
-    padding: 0 2mm 15mm 2mm;
+    padding: 0 0mm 15mm 0mm;
   }
 }

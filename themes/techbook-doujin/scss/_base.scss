@@ -118,3 +118,7 @@ blockquote {
 .page-break {
   page-break-after: always !important;
 }
+
+body {
+  break-before: recto;
+}
