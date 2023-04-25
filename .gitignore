@@ -1,8 +1,10 @@
 # vivliostyle
 .vivliostyle/
-*.html
 publication.json
-*.pdf
+cover.png
+output/
+
+src/**/*.js
 
 # Logs
 logs

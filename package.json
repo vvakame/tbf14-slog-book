@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "author": "vvakame <vvakame@gmail.com>",
   "scripts": {
+    "build:js": "tsc",
+    "toc": "yarn build:js && node ./src/toc.js",
     "build": "vivliostyle build",
     "build:press": "vivliostyle build --press-ready",
     "preview": "vivliostyle preview"
@@ -12,5 +14,9 @@
     "@vivliostyle/cli": "latest"
   },
   "license": "MIT",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^18.16.0",
+    "typescript": "^5.0.4"
+  }
 }

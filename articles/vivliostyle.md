@@ -47,3 +47,22 @@ https://zenn.dev/macneko/articles/06aec138a357b9
 テスト [^1]
 
 [^1]: 脚注だよ〜〜
+
+うーん、普通にMarkdownでリンク書いたら自動的に脚注になる方法ないかな…。
+Re:VIEWでは普通に手動で脚注にしてたんだけど、記法がMarkdownだとそっちに引っ張られてしまう。
+まぁ今回は面倒なので手動でやるか…？
+
+あ、あと表紙はどうするのかな。
+Re:VIEWだと表紙画像をPDFの先頭に入れてくれる的なオプションがあったけども。
+https://github.com/vivliostyle/vivliostyle-cli/issues/99
+気合でcover.html
+
+epubの出し方
+なさそう
+
+https://twitter.com/hid_alma1026/status/1647559375744278529
+
+https://twitter.com/MurakamiShinyu/status/1647771227258507265
+
+雑にやったらidがvivliostyleによって変更されててtocのページ数が ?? になってしまい最初なぜかわからなくて困った。
+toLowerCaseが必要。

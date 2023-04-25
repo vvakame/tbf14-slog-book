@@ -170,3 +170,10 @@
     padding: 0 0mm 15mm 0mm;
   }
 }
+
+@page :first {
+  margin: 0;
+  img {
+    max-width: 100%;
+  }
+}

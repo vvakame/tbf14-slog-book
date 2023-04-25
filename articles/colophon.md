@@ -1,10 +1,13 @@
 <section id="colophon" role="doc-colophon">
 
-## 私が書いた本
-20xx年x月x日　初版発行
-- 発行　私が書いた本刊行会
-- 編集　山田太郎
-- 印刷　Sample Printing
-© My Book Publishing, 20xx
+## Goの次期標準 構造化ログ slog解説
+
+2023年5月20日　技術書典14 v1.0.0
+
+- 著者　　vvakame
+- 編集　　vvakame
+- 発行所　ひかる黄金わかめ帝国
+
+© 2023 vvakame
 
 </section>
