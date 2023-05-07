@@ -1,8 +1,10 @@
 # はじめに
 
 この本はGoの次期標準ライブラリであるslogについて、実際に利用して、それを解説するものです。
-本書を執筆している2023年5月の段階では、slog搭載のGo 1.21はまだまだリリースされていないため、`golang.org/x/exp/slog`[^expslog] を代わりに利用しています。
+技術書典Web^[https://techbookfest.org/]や本書を執筆するために作ったptproc[^ptproc]などでslogを実用しています。
+本書を執筆している2023年5月の段階では、slog搭載のGo 1.21はまだまだリリースされていないため、`golang.org/x/exp/slog`[^expslog] を利用し、これについて解説していきます。
 
+[^ptproc]: https://github.com/vvakame/ptproc
 [^expslog]: https://pkg.go.dev/golang.org/x/exp/slog
 
 本書にかかれていることの多くは公式のプロポーザル[^proposal]にも書かれている内容です。
