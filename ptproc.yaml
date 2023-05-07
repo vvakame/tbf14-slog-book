@@ -1,0 +1,13 @@
+mapfile:
+  startRegExp: "^<!--\s*mapfile:(.+?)\s*-->\s*$"
+  endRegExp: "^<!--\s*mapfile.end\s*-->\s*$"
+  disableRewriteIndent: false
+  indentWidth: 2
+  defaultSkip: 1
+maprange:
+  startRegExp: "^<!--\s*maprange:(.+?)\s*-->\s*$"
+  endRegExp: "^<!--\s*maprange.end\s*-->\s*$"
+  disableDedent: false
+  disableRewriteIndent: false
+  indentWidth: 2
+  defaultSkip: 1

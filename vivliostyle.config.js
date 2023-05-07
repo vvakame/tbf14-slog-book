@@ -11,7 +11,8 @@ module.exports = {
       path: "articles/toc.md",
       rel: "contents",
     },
-    "articles/manuscript.md", // `title` is automatically guessed from the file (frontmatter > first heading).
+    "articles/introduction.md", // `title` is automatically guessed from the file (frontmatter > first heading).
+    "articles/manuscript.md",
     "articles/vivliostyle.md",
     "articles/colophon.md",
     // {

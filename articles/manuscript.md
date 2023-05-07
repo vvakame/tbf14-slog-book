@@ -1,4 +1,35 @@
-# slog
+# slog解説
+
+
+## slogの特徴
+
+TODO
+
+## slogのAPI
+
+TODO
+
+## slogに不向きなこと
+
+TODO
+
+## 実用の仕方
+
+TODO
+
+## 落とし穴の紹介
+
+TODO
+
+## コミュニティのライブラリ
+
+TODO
+
+## 雑感
+
+TODO
+
+## 物置
 
 https://go.googlesource.com/proposal/+/master/design/56345-structured-logging.md
 
@@ -19,10 +50,6 @@ NewLogLogger 間違えがち
 
 https://github.com/samber/slog-multi
 
-## こんにちは
+https://github.com/neilotoole/slogt
 
-a
-
-## foobar
-
-b
+やっぱFromContextいるくない… *testing.T に紐付けようとするとdefault logger変えるのもあれだし

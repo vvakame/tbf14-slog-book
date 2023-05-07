@@ -66,3 +66,7 @@ https://twitter.com/MurakamiShinyu/status/1647771227258507265
 
 雑にやったらidがvivliostyleによって変更されててtocのページ数が ?? になってしまい最初なぜかわからなくて困った。
 toLowerCaseが必要。
+
+review-preproc相当のものが必要…
+自分で作った。5日くらいかかった。虚無…。
+https://github.com/vvakame/ptproc
