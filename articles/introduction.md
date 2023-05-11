@@ -7,6 +7,18 @@
 [^ptproc]: https://github.com/vvakame/ptproc
 [^expslog]: https://pkg.go.dev/golang.org/x/exp/slog
 
+使っている `golang.org/x/exp` のバージョンは次の通りです。
+
+<!-- mapfile:./exp.version.txt -->
+```
+v0.0.0-20230510235704-dd950f8aeaea
+```
+<!-- mapfile.end -->
+
+本パッケージはexperimentalだけあって、稀に破壊的変更が入ります。
+5月11日時点で `slog.NewJSONHandler` とか `slog.NewTextHandler` 、その他のシグニチャが変わったりしてドヒャりました^[https://github.com/golang/exp/commit/dd950f8aeaeae96f4a4c0b979152048f8f364fa8]。
+パッケージ利用時は本書記述のものから変更が入っている可能性を念頭においておいてください。
+
 本書にかかれていることの多くは公式のプロポーザル[^proposal]にも書かれている内容です。
 自分で実用を開始してみてからプロポーザルを読み返したら、「全部書いてあるじゃん！」と落ち込んだりもしました。
 そんな筆者の体験と実用上の注意点をまとめたものが本書になります。

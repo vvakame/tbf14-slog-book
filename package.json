@@ -6,6 +6,7 @@
   "scripts": {
     "build:js": "tsc",
     "build:md": "go run github.com/vvakame/ptproc/cmd/ptproc -r -g 'articles/*.md'",
+    "exp-version": "cd ./code && go list -m -f '{{ .Version }}' golang.org/x/exp > ../articles/exp.version.txt",
     "toc": "yarn build:js && node ./src/toc.js > articles/toc.partial.txt",
     "build": "vivliostyle build",
     "build:press": "vivliostyle build --press-ready",

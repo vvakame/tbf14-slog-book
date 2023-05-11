@@ -8,7 +8,6 @@ import (
 )
 
 func Test_attr(t *testing.T) {
-	attr := slog.Bool("")
 	defaultLogger := slog.Default()
 	defer func() {
 		slog.SetDefault(defaultLogger)
@@ -20,7 +19,7 @@ func Test_attr(t *testing.T) {
 	var logger *slog.Logger
 
 	// range:textHandler
-	h = slog.NewTextHandler(os.Stdout)
+	h = slog.NewTextHandler(os.Stdout, nil)
 	logger = slog.New(h)
 	logger.InfoCtx(
 		ctx, "start processing",
@@ -29,7 +28,7 @@ func Test_attr(t *testing.T) {
 	// range.end
 
 	// range:jsonHandler
-	h = slog.NewJSONHandler(os.Stdout)
+	h = slog.NewJSONHandler(os.Stdout, nil)
 	logger = slog.New(h)
 	logger.InfoCtx(
 		ctx, "start processing",
@@ -38,7 +37,7 @@ func Test_attr(t *testing.T) {
 	// range.end
 
 	// range:textHandlerWithHandlerOptions
-	h = slog.HandlerOptions{
+	h = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		// 呼び出し元コードの出力
 		AddSource: true,
 		// 出力するログレベル
@@ -49,7 +48,7 @@ func Test_attr(t *testing.T) {
 			a.Value = slog.StringValue(a.Value.String() + "?")
 			return a
 		},
-	}.NewTextHandler(os.Stdout)
+	})
 	logger = slog.New(h)
 	logger.DebugCtx(
 		ctx, "start processing",

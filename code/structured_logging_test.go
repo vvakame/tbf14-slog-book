@@ -12,7 +12,7 @@ func Test_structuredLogging(t *testing.T) {
 	defer func() {
 		slog.SetDefault(defaultLogger)
 	}()
-	h := slog.HandlerOptions{}.NewJSONHandler(os.Stdout)
+	h := slog.NewJSONHandler(os.Stdout, nil)
 
 	// range:newLogger
 	logger := slog.New(h)

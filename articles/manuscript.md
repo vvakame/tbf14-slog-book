@@ -111,7 +111,7 @@ HandlerにはデフォルトでTextHandler^[https://pkg.go.dev/golang.org/x/exp/
 
 <!-- maprange:../code/default_handler_test.go,textHandler -->
 ```go title=TextHandlerを作成する
-h = slog.NewTextHandler(os.Stdout)
+h = slog.NewTextHandler(os.Stdout, nil)
 logger = slog.New(h)
 logger.InfoCtx(
   ctx, "start processing",
@@ -125,7 +125,7 @@ logger.InfoCtx(
 
 <!-- maprange:../code/default_handler_test.go,textHandlerWithHandlerOptions -->
 ```go title=TextHandlerを作成する
-h = slog.HandlerOptions{
+h = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
   // 呼び出し元コードの出力
   AddSource: true,
   // 出力するログレベル
@@ -136,7 +136,7 @@ h = slog.HandlerOptions{
     a.Value = slog.StringValue(a.Value.String() + "?")
     return a
   },
-}.NewTextHandler(os.Stdout)
+})
 logger = slog.New(h)
 logger.DebugCtx(
   ctx, "start processing",
