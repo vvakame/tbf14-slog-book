@@ -1,9 +1,9 @@
 - <a class="toc-chapter" href="introduction.html#はじめに">はじめに</a>
 - <a class="toc-chapter" href="manuscript.html#slog解説">slog解説</a>
-  - <a class="toc-section" href="manuscript.html#slogの特徴">slogの特徴</a>
+  - <a class="toc-section" href="manuscript.html#slogの特徴と構造">slogの特徴と構造</a>
   - <a class="toc-section" href="manuscript.html#slogのapi">slogのAPI</a>
-  - <a class="toc-section" href="manuscript.html#slogに不向きなこと">slogに不向きなこと</a>
   - <a class="toc-section" href="manuscript.html#実用の仕方">実用の仕方</a>
+  - <a class="toc-section" href="manuscript.html#slogに不向きなこと">slogに不向きなこと</a>
   - <a class="toc-section" href="manuscript.html#落とし穴の紹介">落とし穴の紹介</a>
   - <a class="toc-section" href="manuscript.html#コミュニティのライブラリ">コミュニティのライブラリ</a>
   - <a class="toc-section" href="manuscript.html#雑感">雑感</a>

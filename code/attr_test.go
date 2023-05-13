@@ -55,4 +55,19 @@ func Test_attr(t *testing.T) {
 		slog.Bool("verbose", true),
 	)
 	// range.end
+
+	{
+		logger2 := logger.With(slog.String("version", "v1.0.0"))
+		logger2.DebugCtx(
+			ctx, "start processing",
+			slog.Bool("verbose", true),
+		)
+	}
+	{
+		logger2 := logger.WithGroup("data")
+		logger2.DebugCtx(
+			ctx, "start processing",
+			slog.Bool("verbose", true),
+		)
+	}
 }

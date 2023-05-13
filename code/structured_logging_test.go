@@ -21,19 +21,19 @@ func Test_structuredLogging(t *testing.T) {
 
 	ctx := context.Background()
 
-	verbose := true
+	userID := "a1b2c3"
 
 	// range:example1
 	slog.InfoCtx(
 		ctx, "start processing",
-		slog.Bool("verbose", verbose),
+		slog.String("userID", userID),
 	)
 	// range.end
 
 	// range:example2
 	slog.InfoCtx(
 		ctx, "start processing",
-		"verbose", verbose,
+		"userID", userID,
 	)
 	// range.end
 
@@ -42,7 +42,7 @@ func Test_structuredLogging(t *testing.T) {
 		ctx,
 		slog.LevelInfo,
 		"start processing",
-		slog.Bool("verbose", verbose),
+		slog.String("userID", userID),
 	)
 	// range.end
 }
