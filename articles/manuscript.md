@@ -460,23 +460,75 @@ level=WARN msg=warning! l=WARN
 LevelVarを使う以外にも、HandlerのEnabledに手を加えるなど、出力レベルを制御する方法はいくつかあります。
 必要に応じて使い分けましょう。
 
+TODO `With` とか `WithGroup` に言及する
 
 ## 実用の仕方
 
-TODO
-vet
+筆者がどのようにslogを実用しているかを紹介していきます。
 
+まずは、新規にプログラムを作る場合です。
+筆者は本書を執筆するためにptproc^[https://github.com/vvakame/ptproc]というCLIツールを作成しました。
+CLIツールであっても、なんらかのログ出力ライブラリは必要です。
+標準に搭載されている `log` パッケージは出力をカスタマイズできず、使いづらいため敬遠。
+今までだと `logr` ^[https://github.com/go-logr/logr]を採用していたのですが、その代替としてslogを利用できます。
 
+新規でプログラムを作る場合、特になにも考えずにslogを使い始めることができます。
+プログラム中では `slog.DebugCtx` などのパッケージ関数を使ってデフォルトのロガーに処理を任せてます。
+main関数やテスト用の関数などでそれぞれ適切なHandlerを作成し、それを利用したLoggerをデフォルトに設定します。
 
-GCPの話をします。
+テスト用の関数で `*testing.T` などをHandler内部で利用してログ出力を行いたい場合、いくつか注意点があります。
+`t.Parallel()` でテストを並列実行した時、デフォルトのロガーをテストごとに切り替えてしまうと、テストの実行コンテキストとHandlerの後ろにいる `*testing.T` が食い違ってしまう可能性があります。
+これを解決するためには、 `context.Context` に絡めた何かしらの仕掛けが必要になるでしょう。
+今のところ、これを具合良く行ってくれるライブラリは存在していません。
+
+次に、既存のプログラムを更新する場合です。
+筆者の場合、技術書典WebのAPIサーバがそれに該当しました。
+このAPIサーバは大昔はGoogle App Engineで稼働していたため、歴史的経緯で google.golang.org/appengine/log ^[https://pkg.go.dev/google.golang.org/appengine/log] と同じAPIを持つ自作の互換ライブラリを利用していました。
+これは旧APIを正規表現や置換を駆使してslog経由での出力に無理やり置き換えました。
+このため、 `slog.DebugCtx(ctx, fmt.Sprintf("BookShelfItemID: %s is already exists", list[0].ID))` のような、本来はメッセージ+属性に分解できるコードがいたるところに残っています。
+とはいえ、slogへの移行自体はそれなりにサクッとできたので、使いたい場所があればslog本来の使い方をできるようになりました。
+
+現在、このAPIサーバはGoogle CloudのCloud Run上で稼働しています。
 Cloud Runなどの利用時、ログ出力が一定のルール^[https://cloud.google.com/logging/docs/agent/logging/configuration#special-fields]に従うとCloud Loggingがその形式に従って構造化ログとして解釈してくれます。
 
 筆者は自作のgcpslogライブラリ^[https://pkg.go.dev/github.com/vvakame/sdlog/gcpslog]を利用してログ出力を行っています。
-技術書典のWebサイトで実際に利用していて、元気に構造化ログを出力しています。
-gcpslogで提供しているHandlerの実装は内部的には `slog.JSONHandler` を持っていて、 `Handler.Handle` でいくつかの追加の属性をRecordに追加し、JSONHandlerに流す、という処理を行っています。
+gcpslogで提供しているHandlerの実装は内部的には `slog.JSONHandler` を持っていて、 `Handler.Handle` で使用上追加可能ないくつかの属性をRecordに追加し、JSONHandlerに流す、という処理を行っています。
+
+さて、slogへの移行はそれなりにサクッとできた、と書きましたが、実はこの移行過程で痛い目を見たのでケーススタディとして紹介します。
+次のコードは、APIサーバ内で実際に使っているカスタムHandlerの実装の一部です。
+
+```go title=ログ出力時に現在のログインユーザのIDも記録する
+func (h *handler) Handle(ctx context.Context, record slog.Record) error {
+	user := domains.CurrentUser(ctx)
+	if user != nil {
+		record.AddAttrs(slog.String("currentUserID", string(user.ID)))
+	}
+
+	return h.base.Handle(ctx, record)
+}
+```
+
+特定のユーザのログが一発で一覧化できると、問い合わせ対応のときに便利じゃん！
+…って、思ったんですよね。
+
+本来であれば、ユーザが明らかになった時に `Logger.With` などを使って効率よく出力するべきなのですが、それをやるのは実際めんどくさい…。
+コード中ではデフォルトロガー経由で出力します。
+ですので、 `context.Context` を使ってリクエストごとに別々のLoggerを生成してHandler内部で振り分けをしてやる構造が必要になり、実装が面倒です。
+slogはデフォルトでは `WithContext` や `FromContext` ライクなユーティリティ関数を提供しません。
+これがあるとデファクトがあるので考えやすかった気もするんですが…。
+
+で、ログ出力というのはめちゃめちゃ頻繁に呼ばれるため、先のコード中の `domains.CurrentUser` の処理が重たいと大変なことになってしまうわけです。
+もちろん、筆者もそれはわきまえていますので、ログインユーザのデータはオンメモリで一瞬で返ってくる構造にしてあります。
+ところが、ステージング環境ではセッションからユーザを特定できなかった場合ヘッダを見てごまかす、テスト用の仕組みがありました。
+その処理が結構重くて、未ログインユーザがステージング環境にアクセスするとメモリをガンガン消費していって大変なことになる…といった面白アクシデントが発生しました。
+未ログイン時の処理が重たいのは想定外だった…普段はログインしっぱなしで開発してるので…。
+
+みなさんは可能な限り `Logger.With` などを活用できるよう、設計段階で工夫を凝らしましょう。
+という教訓でした。
 
 
-
+TODO
+vet
 
 
 ## slogに不向きなこと
