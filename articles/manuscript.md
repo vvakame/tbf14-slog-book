@@ -315,6 +315,26 @@ slog.InfoCtx(
 
 便利ですね。
 
+もし、手動で `slog.Value` の値を解決したい場合は `value.Resolve()` を呼びます。
+値が `LogValuer` である場合、再帰的に値を解決してくれます。
+`LogValue()` を直接呼ぶより簡単かつ確実です。
+
+<!-- maprange:../code/log_valuer_test.go,resolve -->
+```go title=Resolveは再帰的に値を解決してくれる
+v := slog.AnyValue(&User{
+  ID:       "123",
+  Password: "53c237",
+})
+// Kind = LogValuer
+t.Log(v.Kind())
+
+v = v.Resolve()
+// Kind = Group
+t.Log(v.Kind())
+```
+<!-- maprange.end -->
+
+
 Groupの話が出てきたのでGroupについて解説します。
 Groupはその名の通り、1つの属性の値として、グループ化した値（JSONでいうオブジェクト的な構造）を持つことができます。
 slogのHandlerにおいて、最終的な出力がJSONであるとは限りません。
@@ -461,6 +481,7 @@ LevelVarを使う以外にも、HandlerのEnabledに手を加えるなど、出�
 必要に応じて使い分けましょう。
 
 TODO `With` とか `WithGroup` に言及する
+TODO Kind, Source
 
 ## 実用の仕方
 
@@ -526,46 +547,117 @@ slogはデフォルトでは `WithContext` や `FromContext` ライクなユー�
 みなさんは可能な限り `Logger.With` などを活用できるよう、設計段階で工夫を凝らしましょう。
 という教訓でした。
 
+## slogと間違った使い方
 
-TODO
-vet
+slogを間違った使い方をしてしまった時の話をします。
+本書ではAttrの組み立ては明示的に `slog.String("key", "value")` 形式で行っていましたが、引数を2つ別々にわたす、 `"key", "value"` 形式でAttrを指定することもできたのでした。
+では、keyを指定し忘れて、 `"value"` のように1つだけ値を投げ込むとどうなるのか？確認してみましょう。
 
+<!-- maprange:../code/badkey_test.go,badkey -->
+```go title=Attrに当たる部分がKey-Valueではない
+logger.InfoCtx(ctx, "test", "value(not-key)")
+```
+<!-- maprange.end -->
+
+これの実行結果は次の通りです。
+Key-Valueのペアがなかったので、Attrの作成に失敗して `BADKEY!` というKeyが表れています。
+
+```test title=Key-Valueのペアじゃなかったので BADKEY! が登場
+time=2023-05-14T17:39:08.989+09:00
+level=INFO
+msg=test
+!BADKEY=value(not-key)
+```
+
+今のところ、この問題は静的には検出されません。
+ですが、 `go vet` でこの課題を検出できるようにしようというProposal^[https://github.com/golang/go/issues/59407]が提出され、すでにAcceptedになっています。
+そのためのパッチ^[https://go-review.googlesource.com/c/tools/+/487475]もレビュー中なので、おそらくGo 1.21リリース時には `go vet` をちゃんと利用していればこの問題は実行より前に検出できるはずです。
+今のうちから、ちゃんと `go vet` を利用するようにしておきましょう。
 
 ## slogに不向きなこと
 
 slogに不向きな用途についても解説しておきます。
 構造化ロギングが行えるといえど、与えられる属性の自由度を制限することはできません。
-いわば、スキーマレスなデータを出力することになります。
+出力するデータ構造は、いわばスキーマレスになるわけです。
 
-一貫したデータ構造がある場合は、しっかりとログ出力を設計し、安易にslog経由でログ出力を行うのは控えるべきでしょう。
-たとえばGraphQLのリクエストログや、特定のデータの更新履歴など、特定のスキーマが存在する場合、特定の出力先にスキーマが一貫して存在している形で出力するべきでしょう。
+一貫したデータ構造がある場合は、しっかりとログ出力を設計し、slog経由以外の、定型データを出力するようにするべきです。
+この用途にslogを使うのは、便利ではなくなると思います。
+たとえばGraphQLのリクエストログや、特定のデータの更新履歴など、特定のスキーマが存在する場合、一貫したスキーマのもと、特定の出力先に出力するべきでしょう。
 
 スキーマを固定したログ出力にslogを使うべきか、別のものを使うべきかは設計次第ですが、特別なものが特別であるとわかるよう、slogを使わない選択をするのがわかりやすいのではないでしょうか。
 
-## 落とし穴の紹介
+## Handlerのテスト
 
-TODO
-HandleでCurrentUser読んだら字面に反して色々やってる処理だったのでメモリ使用量が一気にエグいことになってAPIがエラーを返す様になった話。
-NewLogLogger 間違えがち
+slogにはHandlerのテストを行ってくれるパッケージがあります。
+`golang.org/x/exp/slog/slogtest` です。
+標準ライブラリになった時には `testing/slogtest` になる予定です。
+
+存在する関数は1つだけで、 `slogtest.TestHandler` がそれです。
+引数として `Handler` と、生成された出力のパーサーを渡します。
+`Record` からバイト列に変換するのが `Handler` の仕事なので、出力されたバイト列を元のデータ構造に戻せたらHandlerは壊れてないね！と調べてくれる感じです。
+若干の脳筋さを感じます。
+
+標準の `slog.JSONHandler` のテストを行うコードを書いてみます。
+
+<!-- maprange:../code/slogtest_test.go,slogtest -->
+```go title=slogtestでslog.JSONHandlerをテストする
+var buf bytes.Buffer
+h := slog.NewJSONHandler(&buf, nil)
+err := slogtest.TestHandler(
+  h, func() []map[string]any {
+    ss := strings.Split(buf.String(), "\n")
+    ret := make([]map[string]any, 0, len(ss))
+
+    for _, s := range ss {
+      if s == "" {
+        continue
+      }
+
+      result := map[string]any{}
+      err := json.Unmarshal([]byte(s), &result)
+      if err != nil {
+        t.Fatal(err)
+      }
+
+      ret = append(ret, result)
+    }
+    return ret
+  },
+)
+if err != nil {
+  t.Error(err)
+}
+```
+<!-- maprange.end -->
 
 ## コミュニティのライブラリ
 
-TODO
-https://pkg.go.dev/github.com/samber/slog-multi
-https://pkg.go.dev/github.com/neilotoole/slogt
+コミュニティには既にいくつか、slog用ライブラリが存在しています。
+5月11日にslog自体に破壊的変更が入ってしまったので、本項目執筆時点（5月14日）ではだいたいのライブラリは壊れています。
+利用時は各ライブラリのライセンスを確認のうえ適切に使ってください。
 
+また、slog自体がまだexperimentalな存在なので、市民権を得ているライブラリはありません。
+悪意のある実装が存在しないかなどの検討は本書に掲載されている、されていないに関わらず個別によくよく吟味するべきです。
+かくいう筆者も、ここで紹介はするものの実際に利用しているライブラリは今のところありません。
 
-## 雑感
+`github.com/samber/slog-multi` ^[https://pkg.go.dev/github.com/samber/slog-multi]はslogのHandlerを複数組み合わせたり、条件によって振り分けたり、ロードバランシングを行ったりと多機能なライブラリです。
+筆者は複数のログ出力先を利用していないのですが、出力のレベルがErrorであればSlackに通知する、などのユースケースはあるかもしれません。
+技術書典Webでもデータ不整合の検知などはSlackに通知していますが、slog経由でできると嬉しいのかも…。
 
-TODO
+このライブラリの作者のsamberさんは、他にも `slog-slack` や `slog-fluentd` など、色々なライブラリを作っているので他のライブラリもチェックしてみると自分にマッチしたものがあるかもしれません。
 
-## 物置
+`github.com/galecore/xslog` ^[https://pkg.go.dev/github.com/galecore/xslog]は様々なサービス、ライブラリをバックエンドとするHandlerのコレクションライブラリです。
+OpenTelemetryやSentry、zap、testingパッケージ向けの実装などが揃っています。
+一番最初にslogのHandlerの実装例を勉強するのに丁度いいかもしれません。
 
-https://go.googlesource.com/go/+/refs/heads/master/src/log/slog/
-https://go.googlesource.com/go/+/refs/heads/master/src/log/slog/internal/slogtest/
-https://go-review.googlesource.com/c/exp/+/469075
+`github.com/neilotoole/slogt` ^[https://pkg.go.dev/github.com/neilotoole/slogt]は `testing.T` を引数にとるHandlerです。
+テストコードから呼び出されたslogでのログ出力を `t.Log` などに出力してくれるライブラリです。
+テスト失敗時、slog経由でのログ出力を確認したい場合はかなりあるので、便利そうなライブラリです。
 
-> Handler authors and others may wish to use Value.Resolve
-instead of calling LogValue directly.
+## おわりに
 
-やっぱFromContextいるくない… *testing.T に紐付けようとするとdefault logger変えるのもあれだし
+slogパッケージを説明しました。
+既存ライブラリを踏まえ、実用的で使いやすいライブラリになっていると思います。
+`context.Context` にLoggerを持たせたり取り出したりする標準的な手法がほしい気がしますが、そこはコミュニティの今後のユースケースにかかってくるでしょう。
+今後はslogは幅広い局面で使われることになると思いますので今後のコミュニティのアクションが非常に楽しみです。
+みなさんも面白い使い方、便利な使い方を編み出したら、ぜひSNSやブログなどでシェアしてみてください。

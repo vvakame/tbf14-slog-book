@@ -56,4 +56,17 @@ func Test_logValuer(t *testing.T) {
 		}),
 	)
 	// range.end
+
+	// range:resolve
+	v := slog.AnyValue(&User{
+		ID:       "123",
+		Password: "53c237",
+	})
+	// Kind = LogValuer
+	t.Log(v.Kind())
+
+	v = v.Resolve()
+	// Kind = Group
+	t.Log(v.Kind())
+	// range.end
 }
