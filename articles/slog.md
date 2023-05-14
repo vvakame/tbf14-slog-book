@@ -238,6 +238,10 @@ Handlerがこれらをどう処理するべきかは、TextHandlerやJSONHandler
 この値はstructなため直接組み立てることはできません。
 `slog.AnyValue`、`slog.BoolValue`、`slog.DurationValue`、`slog.GroupValue` などなどさまざまな関数が用意されています。
 
+`slog.Value` は `slog.Kind` という、値が種類のものかを示す値を持ちます。
+`slog.Value` の値をなんらかの理由で自力で処理したい場合、お世話になることもあるかもしれません。
+すこし `reflect` パッケージの構造に似ていますね。
+
 面白い要素として、 `slog.LogValuer` があります。
 これは渡された値の評価を実際にログ出力する直前（ `Handler.Handle` などの来る直前 ）まで遅延させることができます。
 このインタフェースの定義は次の通りです。
@@ -480,8 +484,173 @@ level=WARN msg=warning! l=WARN
 LevelVarを使う以外にも、HandlerのEnabledに手を加えるなど、出力レベルを制御する方法はいくつかあります。
 必要に応じて使い分けましょう。
 
-TODO `With` とか `WithGroup` に言及する
-TODO Kind, Source
+次に説明する要素は `slog.Source` です。
+`slog.Record` のPCを `runtime.CallersFrames` を使って、Function、File、Lineに変換したものです。
+つまり、実行時の関数名やソースコードの場所などの情報が詰まっています。
+`slog.HandlerOptions` の `AddSource` をtrueにした場合、 このSource structに値をつめて提供されます。
+
+<!-- maprange:../code/add_source_test.go,source -->
+```go title=AddSourceをtrueに設定してログ出力
+h := slog.NewJSONHandler(
+  os.Stdout,
+  &slog.HandlerOptions{
+    AddSource: true,
+  },
+)
+
+logger := slog.New(h)
+logger.InfoCtx(ctx, "emit source")
+```
+<!-- maprange.end -->
+
+このコードを出力した時のログは次の通りです。
+`source` が追加されていますね。
+
+```text title="source"が追加されている
+{
+  "time":"2023-05-15T03:34:30.720356+09:00",
+  "level":"INFO",
+  "source":{
+    "function":"example/code.Test_addSource",
+    "file":"/work/code/add_source_test.go",
+    "line":22
+  },
+  "msg":"emit source"
+}
+```
+
+さて、ここまで様々な例を見てきましたが、明示的に指定していない属性がいくつか出力されていました。
+`"time"`、`"level"`、`"source"`、`"message"` の4つです。
+これらは定数が用意されているため、置き換え処理などに利用することができます。
+例を見てみましょう。
+
+<!-- maprange:../code/default_keys_test.go,keys -->
+```go title=4つの出力のKeyをリネームしてみる
+h := slog.NewJSONHandler(
+  os.Stdout,
+  &slog.HandlerOptions{
+    AddSource: true,
+    ReplaceAttr: func(
+      groups []string, a slog.Attr,
+    ) slog.Attr {
+      switch a.Key {
+      case slog.TimeKey:
+        a.Key = "t"
+      case slog.LevelKey:
+        a.Key = "l"
+      case slog.SourceKey:
+        a.Key = "s"
+      case slog.MessageKey:
+        a.Key = "m"
+      }
+      return a
+    },
+  },
+)
+
+logger := slog.New(h)
+logger.InfoCtx(ctx, "rename keys")
+```
+<!-- maprange.end -->
+
+出力例も確認します。
+Keyの名前が置き換えられていますね。
+
+```text title=Keyが置き換わっている
+{
+  "t":"2023-05-15T03:39:44.978996+09:00",
+  "l":"INFO",
+  "s":{
+    "function":"example/code.Test_defaultKeys",
+    "file":"/work/code/default_keys_test.go",
+    "line":37
+  },
+  "m":"rename keys"
+}
+```
+
+最後に、 `Logger.With` と `Logger.WithGroup` を説明します。
+Handlerの定義に `WithAttrs` と `WithGroup` があったのを覚えていますか？
+LoggerのWithとWithGroupは、内部的にはLogger自身をcloneして内部のHandlerのWithAttrs、WithGroupを呼び、それを新しいHandlerにしたLoggerを返しています。
+
+実際のコード例と出力結果をそれぞれ見てみましょう。
+
+<!-- maprange:../code/with_test.go,with -->
+```go title=Logger.Withを使ってみる
+logger := slog.New(h)
+logger = logger.With(
+  slog.String("key1", "value1"),
+)
+logger.InfoCtx(
+  ctx, "emit with With",
+  slog.String("key2", "value2"),
+)
+```
+<!-- maprange.end -->
+
+```text title=Withで指定したAttrが常に追加される
+{
+  "time":"2023-05-15T03:49:53.689317+09:00",
+  "level":"INFO",
+  "msg":"emit with With",
+  "key1":"value1",
+  "key2":"value2"
+}
+```
+
+<!-- maprange:../code/with_test.go,withGroup -->
+```go title=Logger.WithGroupを使ってみる
+logger := slog.New(h)
+logger = logger.WithGroup("child")
+logger.InfoCtx(
+  ctx, "emit with WithGroup",
+  slog.String("key3", "value3"),
+)
+```
+<!-- maprange.end -->
+
+```text title=WithGroupで指定したグループの配下に指定したAttrが出力される
+{
+  "time":"2023-05-15T03:49:53.68944+09:00",
+  "level":"INFO",
+  "msg":"emit with WithGroup",
+  "child":{
+    "key3":"value3"
+  }
+}
+```
+
+面白いですね。
+特に `Logger.With` は実行している環境（production or staging とか）などの常に出力しておきたい固定値を出力するのに適しています。
+これらの機能はHandlerに事前に渡されるため、あらかじめシリアライズされバイト列で保持するなどの工夫が可能になるため、より効率的なログ出力を行える場合があります。
+
+これは `Logger.With` などに限った話ではありませんが、slogでは属性のKeyが重複した場合でも、なにかしらのチェックは行われないため、容赦なく重複したフィールドが出力されます。
+こういった事象が発生すると困る場合、自前のHandlerで何らかのチェック処理を行ってやる必要があるでしょう。
+
+<!-- maprange:../code/with_test.go,duplicatedAttrs -->
+```go title=Withや明示的なAttrの指定で重複が発生してしまった
+logger := slog.New(h)
+logger = logger.With(
+  slog.String("key", "value1"),
+)
+logger.InfoCtx(
+  ctx, "emit... but duplicated keys",
+  slog.String("key", "value2"),
+  slog.String("key", "value3"),
+)
+```
+<!-- maprange.end -->
+
+```text title="key"というフィールドが3つも出力されてしまった
+{
+  "time":"2023-05-15T03:49:53.689452+09:00",
+  "level":"INFO",
+  "msg":"emit... but duplicated keys",
+  "key":"value1",
+  "key":"value2",
+  "key":"value3"
+}
+```
 
 ## 実用例の紹介
 
