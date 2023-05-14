@@ -17,11 +17,11 @@
   - <a class="toc-section" href="manuscript.html#slogの特徴と構造">slogの特徴と構造</a>
   - <a class="toc-section" href="manuscript.html#slogのapi">slogのAPI</a>
   - <a class="toc-section" href="manuscript.html#実用の仕方">実用の仕方</a>
+  - <a class="toc-section" href="manuscript.html#slogと間違った使い方">slogと間違った使い方</a>
   - <a class="toc-section" href="manuscript.html#slogに不向きなこと">slogに不向きなこと</a>
-  - <a class="toc-section" href="manuscript.html#落とし穴の紹介">落とし穴の紹介</a>
+  - <a class="toc-section" href="manuscript.html#handlerのテスト">Handlerのテスト</a>
   - <a class="toc-section" href="manuscript.html#コミュニティのライブラリ">コミュニティのライブラリ</a>
-  - <a class="toc-section" href="manuscript.html#雑感">雑感</a>
-  - <a class="toc-section" href="manuscript.html#物置">物置</a>
+  - <a class="toc-section" href="manuscript.html#おわりに">おわりに</a>
 - <a class="toc-chapter" href="vivliostyle.html#vivliostyle使ってみた">Vivliostyle使ってみた</a>
 <!-- mapfile.end -->
 

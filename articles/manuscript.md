@@ -52,7 +52,7 @@ s+logという名前がそのことを表していますね。
 
 厳密にいうと、 `With` や `WithGroup` が事前に呼ばれている場合、いくつか `Handler` にて `Record` の処理よりさらに前に処理済の要素がある可能性はあります。
 
-## slogのAPI
+## API解説
 
 slogのAPIの概要と使い方について簡単に見ていきます。
 詳細はドキュメント^[https://pkg.go.dev/golang.org/x/exp/slog]を参照してください。
@@ -483,7 +483,7 @@ LevelVarを使う以外にも、HandlerのEnabledに手を加えるなど、出�
 TODO `With` とか `WithGroup` に言及する
 TODO Kind, Source
 
-## 実用の仕方
+## 実用例の紹介
 
 筆者がどのようにslogを実用しているかを紹介していきます。
 
@@ -547,7 +547,7 @@ slogはデフォルトでは `WithContext` や `FromContext` ライクなユー�
 みなさんは可能な限り `Logger.With` などを活用できるよう、設計段階で工夫を凝らしましょう。
 という教訓でした。
 
-## slogと間違った使い方
+## 間違った使い方
 
 slogを間違った使い方をしてしまった時の話をします。
 本書ではAttrの組み立ては明示的に `slog.String("key", "value")` 形式で行っていましたが、引数を2つ別々にわたす、 `"key", "value"` 形式でAttrを指定することもできたのでした。
