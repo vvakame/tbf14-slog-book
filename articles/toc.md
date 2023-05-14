@@ -13,15 +13,15 @@
 
 <!-- mapfile:file:"toc.partial.txt",skip:0 -->
 - <a class="toc-chapter" href="introduction.html#はじめに">はじめに</a>
-- <a class="toc-chapter" href="manuscript.html#slog解説">slog解説</a>
-  - <a class="toc-section" href="manuscript.html#slogの特徴と構造">slogの特徴と構造</a>
-  - <a class="toc-section" href="manuscript.html#slogのapi">slogのAPI</a>
-  - <a class="toc-section" href="manuscript.html#実用の仕方">実用の仕方</a>
-  - <a class="toc-section" href="manuscript.html#slogと間違った使い方">slogと間違った使い方</a>
-  - <a class="toc-section" href="manuscript.html#slogに不向きなこと">slogに不向きなこと</a>
-  - <a class="toc-section" href="manuscript.html#handlerのテスト">Handlerのテスト</a>
-  - <a class="toc-section" href="manuscript.html#コミュニティのライブラリ">コミュニティのライブラリ</a>
-  - <a class="toc-section" href="manuscript.html#おわりに">おわりに</a>
+- <a class="toc-chapter" href="slog.html#slog解説">slog解説</a>
+  - <a class="toc-section" href="slog.html#slogの特徴と構造">slogの特徴と構造</a>
+  - <a class="toc-section" href="slog.html#api解説">API解説</a>
+  - <a class="toc-section" href="slog.html#実用例の紹介">実用例の紹介</a>
+  - <a class="toc-section" href="slog.html#間違った使い方">間違った使い方</a>
+  - <a class="toc-section" href="slog.html#slogに不向きなこと">slogに不向きなこと</a>
+  - <a class="toc-section" href="slog.html#handlerのテスト">Handlerのテスト</a>
+  - <a class="toc-section" href="slog.html#コミュニティのライブラリ">コミュニティのライブラリ</a>
+  - <a class="toc-section" href="slog.html#おわりに">おわりに</a>
 - <a class="toc-chapter" href="vivliostyle.html#vivliostyle使ってみた">Vivliostyle使ってみた</a>
 <!-- mapfile.end -->
 

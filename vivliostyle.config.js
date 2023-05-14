@@ -12,7 +12,7 @@ module.exports = {
       rel: "contents",
     },
     "articles/introduction.md", // `title` is automatically guessed from the file (frontmatter > first heading).
-    "articles/manuscript.md",
+    "articles/slog.md",
     "articles/vivliostyle.md",
     "articles/colophon.md",
     // {
