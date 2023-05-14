@@ -104,11 +104,11 @@ ptproc^[https://github.com/vvakame/ptproc]（Plain Text PROCessor）というツ
 次のような感じでサンプルコードを本文中に展開できる。
 
 <pre>
-<!-- mapfile:./exp.version.txt -->
+&lt;!-- mapfile:./exp.version.txt --&gt;
 ```
 v0.0.0-20230510235704-dd950f8aeaea
 ```
-<!-- mapfile.end -->
+&lt;!-- mapfile.end --&gt;
 </pre>
 
 これを作るのに5日くらいかかり、ゴールデンウィークの前半が溶けた。

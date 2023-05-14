@@ -418,10 +418,10 @@ slogでは、ログ出力のレベルは4段階あります。
 type Level int
 
 const (
-	LevelDebug Level = -4
-	LevelInfo  Level = 0
-	LevelWarn  Level = 4
-	LevelError Level = 8
+  LevelDebug Level = -4
+  LevelInfo  Level = 0
+  LevelWarn  Level = 4
+  LevelError Level = 8
 )
 ```
 
@@ -438,7 +438,7 @@ Levelerの定義を見てみましょう。
 
 ```go title=Levelerの定義
 type Leveler interface {
-	Level() Level
+  Level() Level
 }
 ```
 
@@ -487,7 +487,7 @@ LevelVarを使う以外にも、HandlerのEnabledに手を加えるなど、出�
 次に説明する要素は `slog.Source` です。
 `slog.Record` のPCを `runtime.CallersFrames` を使って、Function、File、Lineに変換したものです。
 つまり、実行時の関数名やソースコードの場所などの情報が詰まっています。
-`slog.HandlerOptions` の `AddSource` をtrueにした場合、 このSource structに値をつめて提供されます。
+`slog.HandlerOptions` の `AddSource` をtrueにした場合、 このSource structが値をつめた状態で提供されます。
 
 <!-- maprange:../code/add_source_test.go,source -->
 ```go title=AddSourceをtrueに設定してログ出力
@@ -688,13 +688,17 @@ gcpslogで提供しているHandlerの実装は内部的には `slog.JSONHandler
 次のコードは、APIサーバ内で実際に使っているカスタムHandlerの実装の一部です。
 
 ```go title=ログ出力時に現在のログインユーザのIDも記録する
-func (h *handler) Handle(ctx context.Context, record slog.Record) error {
-	user := domains.CurrentUser(ctx)
-	if user != nil {
-		record.AddAttrs(slog.String("currentUserID", string(user.ID)))
-	}
+func (h *handler) Handle(
+  ctx context.Context, record slog.Record,
+) error {
+  user := domains.CurrentUser(ctx)
+  if user != nil {
+    record.AddAttrs(
+      slog.String("currentUserID", string(user.ID)),
+    )
+  }
 
-	return h.base.Handle(ctx, record)
+  return h.base.Handle(ctx, record)
 }
 ```
 
