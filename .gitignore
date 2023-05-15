@@ -1,10 +1,11 @@
 # vivliostyle
 .vivliostyle/
 publication.json
-cover.png
 output/
 
 src/**/*.js
+
+distribution/
 
 # Logs
 logs
