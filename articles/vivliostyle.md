@@ -1,10 +1,10 @@
 # Vivliostyle使ってみた
 
-諸般の事情で本書の内容自体は手堅くハズれがなくライブラリ規模もさほど大きくないものにしたので、反動で別のところで冒険する気持ちになりました。
+本書の内容自体は手堅くハズれがなくライブラリ規模もさほど大きくないものにしたので、反動で別のところで冒険する気持ちになりました。
 今回は普段使っているRe:VIEWを離れ、Vivliostyleを試してみることにしました。
 運営タスクで忙殺されることがわかってるはずなのになぜ毎回こういう冒険をしてしまうのか…？
 
-筆者は長年TechBoosterのReVIEW-Template^[https://github.com/TechBooster/ReVIEW-Template]を使っていて、これに特に大きな不満があるわけではありません。
+筆者は長年TechBoosterのReVIEW-Template<span class="footnote">https://github.com/TechBooster/ReVIEW-Template</span>を使っていて、これに特に大きな不満があるわけではありません。
 よって、だいぶRe:VIEWでの体験に毒されているというか、Re:VIEWにあるものがないと難色を示しがち…というバイアスがあることは先に断っておきます。
 郷に入っては郷に従えと言いますし、VivliostyleではVivliostyleなりのやり方があります（けど、ついRe:VIEWに肩入れしてしまう）。
 
@@ -19,7 +19,8 @@ $ yarn create book tbf14-slog-book
 ? Author name vvakame
 ? Author email vvakame@gmail.com
 ? License MIT
-? choose theme @vivliostyle/theme-techbook - Techbook (技術同人誌) theme
+? choose theme @vivliostyle/theme-techbook
+     - Techbook (技術同人誌) theme
 ...
 ```
 
@@ -38,14 +39,13 @@ PDFをビルドしてみたけど、物理本をターゲットにしたスタ�
 * https://docs.vivliostyle.org/#/ja/create-book
 * https://vivliostyle.org/ja/make-books-with-create-book/
 
-まずは自分の今までの本がどうなっているかを知るため、技術書典NFT^[https://techbookfest.org/product/9GsUCh18KNL40JTqr4savb]のPDFを眺めてみる。
+まずは自分の今までの本がどうなっているかを知るため、技術書典NFT<span class="footnote">https://techbookfest.org/product/9GsUCh18KNL40JTqr4savb</span>のPDFを眺めてみる。
 こいつはいつもどおりのTechBoosterのReVIEW-Template製なので、こいつの見た目に近くなると僕が感じる違和感は減りそう。
 いつものがいいならいつものでいいじゃん、という内なる声が聞こえる…。
 だがしかしいつものやつに居続けてはイノベーションなどないのだ、と克己していく。
 うーん、やっぱりノドと小口がほぼ同じだなぁ。
 
-というわけで、Vivliostyleでもなにか先達がいないかと思って「Vivliostyle ノド 小口」で検索すると次の記事が見つかった。
-https://zenn.dev/macneko/articles/06aec138a357b9
+というわけで、Vivliostyleでもなにか先達がいないかと思って「Vivliostyle ノド 小口」で検索すると良い記事<span class="footnote">https://zenn.dev/macneko/articles/06aec138a357b9</span>が見つかった。
 ええやんこれで！！記事の最後とかでテーマ配布します！とか言い始めたら最高！と思いつつ読み勧めたけどそういうものはなかった。
 残念無念。
 
@@ -58,7 +58,7 @@ VFM（Vivliostyle Flavored Markup）では専用の記法があるっぽい。
 
 あ、あと表紙はどうするのかな。
 Re:VIEWだと表紙画像をPDFの先頭に入れてくれる的なオプションがあったけども。
-VivliostyleのIssueに、表紙オプションのサポート^[https://github.com/vivliostyle/vivliostyle-cli/issues/99]というのがあった。
+VivliostyleのIssueに、表紙オプションのサポート<span class="footnote">https://github.com/vivliostyle/vivliostyle-cli/issues/99</span>というのがあった。
 うーんなるほど、今のところは自分で気合でやらないといけないっぽい。
 僕の場合、販売用書籍は表紙あり、全文公開の時は表紙なしというビルドにしているので、リポジトリ内には表紙データを入れないんですよね…。
 この辺ちょっとめんどくさいな。
@@ -74,18 +74,16 @@ webpubというフォーマットで出力できるようだけど、これは�
 
 わりと困ることが色々あるのだけど、Twitterにツイートすると色々教えてくださるリプライがくる。
 たとえば https://twitter.com/hid_alma1026/status/1647559375744278529 とか https://twitter.com/MurakamiShinyu/status/1647771227258507265 とかです。
-僕は結構前からGitHubのスポンサー機能でVivliostyleのスポンサーを少額ながらしている[^past-sponsor]のですが、コミュニティイベントへの参加のお誘いやレポートなどをくださることがあり、全体的に高い熱意が維持されて続けています。
+僕は結構前からGitHubのスポンサー機能でVivliostyleのスポンサーを少額ながらしている<span class="footnote">と言いつつ、2023年2月にPayPalによる支払いが停止されたのに気が付かず3ヶ月ほど穴が空いててさっき慌てて再設定した</span>のですが、コミュニティイベントへの参加のお誘いやレポートなどをくださることがあり、全体的に高い熱意が維持され続けています。
 各位ありがとうございます。
 唐突な番宣でした（？）。
-
-[^past-sponsor]: と言いつつ、2023年2月にPayPalによる支払いが停止されたのに気が付かず3ヶ月ほど穴が空いててさっき慌てて再設定した
 
 さて、次は目次（Table of Content）の出力。
 これもどうやるのかよくわからず、調べてみたら章・節・項でいうと章タイトルだけの目次しか生成できないらしい。
 村上さんがツイートで教えてくださった目次の生成方法を見たらPythonのスクリプトで自前生成していた。
 しかたがないので自分もNode.jsでmarkdownを雑にテキスト処理してtocを出力するスクリプトを書いた。
 
-ところが、Vivliostyleに生成させたtoc.htmlをレンダリングさせてみると、ページ数が `??` になってしまい、数字に置き換えられない。
+ところが、Vivliostyleに生成させたtoc.htmlをレンダリングさせてみると、ページ数が `??` になってしまい、数字に置き換わらない。
 なんでかなと思ったら、VFMを変換して作成されるHTMLでは、idが英数小文字に変換されていたので、 `toLowerCase` した値をidに指定しないと一致しないのであった。
 ここを直したらちゃんとページ数が表示されるようになった。
 よかった。
@@ -97,10 +95,10 @@ Markdownから部分的に生成したHTMLをどこかのHTMLファイルのbody
 今はいったん保留。
 
 次の課題はサンプルコードを本文中に埋め込む方法について。
-Re:VIEW時代はreview-preproc^[https://github.com/kmuto/review/blob/master/doc/preproc.ja.md]というプリプロセッサがあって、Re:VIEWファイル中のテキストをコマンド1つで別のファイルの内容で置き換えられた。
+Re:VIEW時代はreview-preproc<span class="footnote">https://github.com/kmuto/review/blob/master/doc/preproc.ja.md</span>というプリプロセッサがあって、Re:VIEWファイル中のテキストをコマンド1つで別のファイルの内容で置き換えられた。
 しかしVivliostyleではそれがないので、なんとかしないといけない。
 色々考えた結果、仕方がないのでツールを自作することにした。
-ptproc^[https://github.com/vvakame/ptproc]（Plain Text PROCessor）というツールを作った。
+ptproc<span class="footnote">https://github.com/vvakame/ptproc</span>（Plain Text PROCessor）というツールを作った。
 次のような感じでサンプルコードを本文中に展開できる。
 
 <pre>
@@ -116,7 +114,7 @@ v0.0.0-20230510235704-dd950f8aeaea
 執筆全然進んでない…。
 
 執筆を進めて、ページ数が増えていくと、脚注が章の末尾にくるのに気がついた。
-前試したときはページ数がそもそも少なかったので、脚注がなんか次ページの頭に来るけど、CSSの書き方が悪いんだろうな…と思っていたんだけど、どうやら仕様らしい。
+前試したときはページ数がそもそも少なかったので、脚注が同じページ…というか、2ページ目の先頭に出ていたので、CSSの書き方が悪いんだろうな…と思っていたんだけど、どうやら仕様らしい。
 
 調べてみると、脚注と後注という概念があり、VFMの脚注は後注のことらしい。
 不勉強ながら後注という概念を知らなかったので調べてみた。
@@ -129,7 +127,6 @@ VFMはPandocのfootnoteの記法を持ってきている。
 これは僕の推測だが、PandocはPaged Mediaを記述するための記法ではないので、footnoteとendnoteの区別がなくてこうなってるんじゃなかろうか。
 
 この本は `@vivliostyle/theme-techbook` をベースにしているので、 `<span class="footnote">これ脚注</span>` と書けるCSSが入っているらしい。
-たとえばこんな感じ<span class="footnote">ここが脚注としてページ下部に表示される</span>らしい。
 
 うーん、slogについての本文は9割書き上がっていて、今からVFMのfootnote記法をHTMLを使った記法に置き換えていくのは心底めんどくさい…。
 VivliostyleはCSS組版なので、CSSの事情が原稿側に漏れ出さざるをえなくなることが度々ありそう。
@@ -139,18 +136,22 @@ VivliostyleはCSS組版なので、CSSの事情が原稿側に漏れ出さざる
 アレはアレでパーサとプロセッサが一体化していてすごい苦しいところはあるんだけども…。
 
 あとは、図1.1とか表1.1みたいな自動採番と文中からの参照がないのも少し困ってしまう。
-Vivliostyle的にはそれができるんだけど、VFMでそれを表現する能力がないため（のはず？）だ。
+Vivliostyle的にはそれができると記憶しているが、VFMでそれを表現する能力がないため（のはず？）だ。
 これがないと本文のテイストが微妙にブログっぽくなってしまう感じがある。
 まぁ今の所あまり困ってはいない（けど欲しい）。
 
-5月12日にリブロワークスさんの `Web技術で本が作れる CSS組版Vivliostyle入門` ^[https://vivliostyle.org/ja/blog/2023/05/10/vivliostyle-book/]という本が出ました。
+5月12日にリブロワークスさんの `Web技術で本が作れる CSS組版Vivliostyle入門` <span class="footnote">https://vivliostyle.org/ja/blog/2023/05/10/vivliostyle-book/</span>という本が出ました。
 届いてからまだ10分くらいしか眺めていないのですが、先に書いた脚注後注の話と脚注を実現するためのcssの書き方なども記載されていました。
 全編ちゃんと読むとだいぶいい感じにできそうな感じがします。
 今これを書いているのは5月14日（日）22時過ぎであり、技術書典14は20日からなのでもう日がないため、完成度より完成のほうが重要だろ！となってしまっているので本書には反映できなさそうなのは残念なところです。
 
-それはそれとして、Vivliostyleを使ってここまで書いた+ツールも作ったので、この本は https://github.com/vvakame/tbf14-slog-book で全文公開しようと思います。
+それはそれとして、Vivliostyleを使ってここまで書いた+ツールも作ったので、この本は技術書典14の会期が終わったあたりで https://github.com/vvakame/tbf14-slog-book で全文公開しようと思います。
 この本の記法やビルドプロセスが気になる人はチェックしてみてください。
 
 もし次回本を作るとしたら、Vivliostyleは使う、VFMじゃない記法を試す、細かな改善はすすめる、という感じを目指したいかなぁ…。
 マークアップで書けて、JavaScriptかLua（書いたことないけど）あたりの記法で拡張できるHTMLトランスレータがあるものがいいんだけど、なんかないかな。
 Re:VIEW記法で書いて泣きながらRubyで拡張する、というパターンになりそうな気はする。
+
+ともあれ、本文が全部かけたので技術書典Webサイト上で書籍情報を登録した。
+あとはセルフレビューと誰かにレビュー頼むのと、footnoteどうしようかなぁ…。
+後注だと読みづらいので仕方ないので直すか…。

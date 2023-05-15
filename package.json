@@ -1,6 +1,6 @@
 {
   "name": "tbf14-slog-book",
-  "description": "技術書典14 Goの次期標準構造化ログ slog解説",
+  "description": "技術書典14 Goの次期標準 構造化ログ slog解説",
   "version": "0.0.0",
   "author": "vvakame <vvakame@gmail.com>",
   "scripts": {
