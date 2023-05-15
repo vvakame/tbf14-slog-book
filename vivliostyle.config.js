@@ -1,3 +1,9 @@
+const fs = require("fs");
+
+function firstImage(images) {
+  return images.find(image => fs.existsSync(image));
+}
+
 module.exports = {
   title: "Goの次期標準 構造化ログ slog解説", // populated into `publication.json`, default to `title` of the first entry or `name` in `package.json`.
   author: "vvakame <vvakame@gmail.com>", // default to `author` in `package.json` or undefined.
@@ -34,7 +40,10 @@ module.exports = {
   workspaceDir: ".vivliostyle", // directory which is saved intermediate files.
   toc: true, // whether generate and include ToC HTML or not, default to 'false'.
   tocTitle: "目次",
-  cover: './cover.png', // cover image. default to undefined.
+  cover: firstImage([
+    "./articles/cover.png",
+    "./articles/cover.free.png"
+  ]), // cover image. default to undefined.
   // vfm: { // options of VFM processor
   //   hardLineBreaks: true, // converts line breaks of VFM to <br> tags. default to 'false'.
   //   disableFormatHtml: true, // disables HTML formatting. default to 'false'.
