@@ -2,6 +2,7 @@
 
 Goの標準ライブラリになる予定のslog<span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog</span>について解説します。
 slogはGo 1.21で `log/slog` として標準ライブラリの一員になる予定です。
+読み方は"スログ"でお願いします。"エスログ"派とは戦っていく所存です<span class="footnote">なぜならProposal書いた人が動画でそう言ってたので… https://www.youtube.com/watch?v=gd_Vyb5vEw0</span>。
 
 本章ではAPIの概要と使い方、落とし穴などを順に見ていきます。
 
