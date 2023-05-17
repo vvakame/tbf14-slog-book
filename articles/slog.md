@@ -204,7 +204,7 @@ Handlerによって結果のフォーマットはいくらでも変化します�
 先の例では、ログを出力した時刻とログレベルが明示的に指定してないにも関わらず出力されています。
 
 構造化データは機械可読性（machine-readable）が高いのがメリットだと書きました。
-この出力例を見ると、ログ出力をBigQuery<span class="footnote">https://cloud.google.com/bigquery/</span>などのデータレイクに蓄積し、活用できるイメージが湧くと思います。
+この出力例を見ると、ログ出力をBigQuery<span class="footnote">https://cloud.google.com/bigquery/</span>などのデータウェアハウスに蓄積し、活用できるイメージが湧くと思います。
 疑似的なクエリですが `SELECT * FROM Logs WHERE userID = "a1b2c3"` のように特定のユーザに対するログ一覧を見る、といった用途がイメージできますね。
 個別の属性に対して検索などの加工ができるようになると、ログをデータとして活用しやすくなります。
 
