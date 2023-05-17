@@ -91,7 +91,7 @@ slog.SetDefault(logger)
 似た名前の関数として `slog.NewLogLogger` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#NewLogLogger</span>も存在します。
 こちらはLoggerを作成する関数ではなくて、 `log` パッケージのLoggerを作る、似て非なるものなので間違えないようにしましょう<span class="footnote">筆者は片手では収まらないくらいの回数間違えました</span>。
 
-Handlerにはデフォルトで `TextHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#TextHandler</span>と `JSONHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#JSONHandler</span>の2つが準備されています。
+Handlerの実装としてslogパッケージには `TextHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#TextHandler</span>と `JSONHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#JSONHandler</span>の2つが準備されています。
 `slog.NewTextHandler` や `slog.NewJSONHandler` でそれぞれのHandlerを作ることができます。
 
 <!-- maprange:../code/default_handler_test.go,textHandler -->
