@@ -245,7 +245,7 @@ Handlerがこれらをどう処理するべきかは、TextHandlerやJSONHandler
 この値は直接組み立てることはできないため、組み立て用関数を利用します。
 `slog.AnyValue`、`slog.BoolValue`、`slog.DurationValue`、`slog.GroupValue` などなど、これ以外にもさまざまな関数が用意されています。
 
-`slog.Value` は `slog.Kind` という、値が種類のものかを示す値を持ちます。
+`slog.Value` は `slog.Kind` という、値がどの種類のものかを示す値を持ちます。
 `slog.Value` の値をなんらかの理由で自力で処理したい場合、お世話になることもあるかもしれません。
 すこし `reflect` パッケージの構造に似ていますね。
 
