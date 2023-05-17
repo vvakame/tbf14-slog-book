@@ -15,8 +15,6 @@
 @import '_media';
 @import '_toc';
 
-@import "~@fontsource/noto-sans-jp/japanese-400.css"; 
-
 /* and more... 🖋 */
 
 section#colophon {
@@ -24,4 +22,14 @@ section#colophon {
   float-reference: page;
   float: bottom;
   margin-bottom: 0;
+}
+
+// @import "~@fontsource/noto-sans-jp/japanese-400.css"; 
+/* noto-sans-jp-japanese-400-normal*/
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('./node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff2') format('woff2'), url('./node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff') format('woff');
 }
