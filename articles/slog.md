@@ -96,8 +96,9 @@ Handlerの実装としてslogパッケージには `TextHandler` <span class="fo
 
 <!-- maprange:../code/default_handler_test.go,textHandler -->
 ```go title=TextHandlerを作成する
-h = slog.NewTextHandler(os.Stdout, nil)
-logger = slog.New(h)
+ctx := context.Background()
+h := slog.NewTextHandler(os.Stdout, nil)
+logger := slog.New(h)
 logger.InfoCtx(
   ctx, "start processing",
   slog.Bool("verbose", true),
@@ -110,7 +111,8 @@ logger.InfoCtx(
 
 <!-- maprange:../code/default_handler_test.go,textHandlerWithHandlerOptions -->
 ```go title=TextHandlerを作成する
-h = slog.NewTextHandler(
+ctx := context.Background()
+h := slog.NewTextHandler(
   os.Stdout,
   &slog.HandlerOptions{
     // 呼び出し元コードの出力
@@ -128,7 +130,7 @@ h = slog.NewTextHandler(
     },
   },
 )
-logger = slog.New(h)
+logger := slog.New(h)
 logger.DebugCtx(
   ctx, "start processing",
   slog.Bool("verbose", true),
@@ -151,7 +153,11 @@ verbose!=true?
 
 すでに `slog.InfoCtx` などの例が出てきましたが、ログ出力を行うAPIについて説明します。
 同じログを出力するのにも、いくつかやり方があるので、ここでは3パターンを掲載しておきます。
+
 `context.Context` を引数に取らない関数もありますが、 `ctx` を引数に取る書き方が普及してほしいという筆者の私情により説明しません。
+slogの実装が直接 `ctx` を利用することはありませんが、その裏側にあるHandlerが `ctx` を利用して処理をカスタマイズする可能性は多いにあります<span class="footnote">トレースIDなどを付与するHandlerの場合、ctxがない場合リクエストに紐付かないログになってしまうかもしれません</span>。
+`slog.Info` などの関数は `ctx` を引数に取らない代わりに、内部的に `context.Background()` で穴埋めを行います。
+この実装では `Handler` の実装者が困る場合があると思いますので、特にライブラリを作るときなどは必ず `ctx` を使ったコードを書きましょう。
 
 <!-- maprange:../code/structured_logging_test.go,example1 -->
 ```go title=属性を明示的に組み立てる
