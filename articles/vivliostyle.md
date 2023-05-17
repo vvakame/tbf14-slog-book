@@ -101,7 +101,7 @@ Re:VIEW時代はreview-preproc<span class="footnote">https://github.com/kmuto/re
 ptproc<span class="footnote">https://github.com/vvakame/ptproc</span>（Plain Text PROCessor）というツールを作った。
 次のような感じでサンプルコードを本文中に展開できる。
 
-<pre>
+<pre class="language-markdown">
 &lt;!-- mapfile:./exp.version.txt --&gt;
 ```
 v0.0.0-20230510235704-dd950f8aeaea
