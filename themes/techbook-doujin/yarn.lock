@@ -23,6 +23,11 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@fontsource/noto-sans-jp@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-jp/-/noto-sans-jp-4.5.12.tgz#e9cfbe3b62da8c656f464df86256d7852ae0faf8"
+  integrity sha512-tdJAUEyuyyCRD4Ot4ZE8+3uyGeSJQD/soSHr7LoltEQr22IotDDWOlqQKF7CpTaJPwt4iOBoXWtAoSN0huVW6A==
+
 "@humanwhocodes/momoa@^2.0.2":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/momoa/-/momoa-2.0.4.tgz#8b9e7a629651d15009c3587d07a222deeb829385"

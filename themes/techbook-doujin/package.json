@@ -29,5 +29,8 @@
     "*.css.map",
     "scss"
   ],
-  "license": "CC0-1.0"
+  "license": "CC0-1.0",
+  "dependencies": {
+    "@fontsource/noto-sans-jp": "^4.5.12"
+  }
 }
