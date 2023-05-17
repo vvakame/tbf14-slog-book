@@ -188,7 +188,7 @@ slog.LogAttrs(
 ```
 <!-- maprange.end -->
 
-筆者の好みは一番最初に出した、明示的に `Attr` を組み立てるやり方が好きです。
+筆者の好みは最初に出した、明示的に `Attr` を組み立てるやり方が好きです。
 なので、本書では基本的にこの書き方でいきます。
 世間的には2番目の例が好まれる気はします。
 
@@ -830,7 +830,7 @@ if err != nil {
 
 `github.com/galecore/xslog` <span class="footnote">https://pkg.go.dev/github.com/galecore/xslog</span>は様々なサービス、ライブラリをバックエンドとするHandlerのコレクションライブラリです。
 OpenTelemetryやSentry、zap、testingパッケージ向けの実装などが揃っています。
-一番最初にslogのHandlerの実装例を勉強するのに丁度いいかもしれません。
+一番初めにslogのHandlerの実装例を勉強するのに丁度いいかもしれません。
 
 `github.com/neilotoole/slogt` <span class="footnote">https://pkg.go.dev/github.com/neilotoole/slogt</span>は `testing.T` を引数にとるHandlerです。
 テストコードから呼び出されたslogでのログ出力を `t.Log` などに出力してくれるライブラリです。
