@@ -1,0 +1,47 @@
+name: Build PDF by Vivliostyle
+
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+jobs:
+  build:
+    name: Build PDF
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
+        with:
+          go-version-file: "go.mod"
+          cache: true
+          cache-dependency-path: "go.sum"
+      - uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: 18
+
+      - name: Build theme css
+        working-directory: themes/techbook-doujin
+        run: |-
+          yarn
+          yarn build:scss
+      - name: Build PDF
+        run: |-
+          cp ./articles/cover.free.png ./articles/cover.png 
+
+          yarn
+          yarn build
+      - name: Check diff
+        run: |-
+          git diff --exit-code -- . ":(exclude)go.sum"
+
+      - name: Upload distribution file to github artifacts
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        with:
+          name: Output documents
+          path: ./output/*.pdf
