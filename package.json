@@ -14,7 +14,7 @@
     "preview": "vivliostyle preview"
   },
   "dependencies": {
-    "@vivliostyle/cli": "latest"
+    "@vivliostyle/cli": "7.3.0"
   },
   "license": "MIT",
   "private": true,
