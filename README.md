@@ -1,14 +1,7 @@
 # 技術書典14 Goの次期標準 構造化ログ slog解説
 
-description
+本リポジトリは技術書典14で頒布した「技術書典14 Goの次期標準 構造化ログ slog解説」のリポジトリです。
+書籍は[こちら](https://techbookfest.org/product/2TcKvDPSNsqY8nfKzYh2zb)のURLから購入することができます。
+リポジトリに全文があるため、自分でビルドできる人はビルドして楽しむこともできます。
 
-> created by [create-book](https://github.com/vivliostyle/create-book).
-
-## References
-
-- VFM <https://vivliostyle.github.io/vfm/#/vfm>
-- Vivliostyle CLI <https://github.com/vivliostyle/vivliostyle-cli#readme>
-- Vivliostyle Themes <https://github.com/vivliostyle/themes#readme>
-- Awesome Vivliostyle <https://github.com/vivliostyle/awesome-vivliostyle#readme>
-- Vivliostyle (GitHub) <https://github.com/vivliostyle>
-- Vivliostyle <https://vivliostyle.org>
+本書は[Vivliostyle](https://vivliostyle.org)によって組版されています。
