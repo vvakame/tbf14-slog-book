@@ -1,18 +1,9 @@
 # slog解説
 
-Goの標準ライブラリになる予定のslog<span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog</span>について解説します。
-slogはGo 1.21で `log/slog` として標準ライブラリの一員になる予定です。
+Go 1.21で標準ライブラリになったslog<span class="footnote">https://pkg.go.dev/log/slog</span>について解説します。
 読み方は"スログ"でお願いします。"エスログ"派とは戦っていく所存です<span class="footnote">なぜならProposal書いた人が動画でそう言ってたので… https://www.youtube.com/watch?v=gd_Vyb5vEw0</span>。
 
 本章ではAPIの概要と使い方、落とし穴などを順に見ていきます。
-
-解説する `golang.org/x/exp` のバージョンは次の通りです。
-
-<!-- mapfile:./exp.version.txt -->
-```
-v0.0.0-20230510235704-dd950f8aeaea
-```
-<!-- mapfile.end -->
 
 ## slogの特徴と構造
 
@@ -54,9 +45,9 @@ s+logという名前がそのことを表していますね。
 ## API解説
 
 slogのAPIの概要と使い方について簡単に見ていきます。
-詳細はドキュメント<span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog</span>を参照してください。
+詳細はドキュメント<span class="footnote">https://pkg.go.dev/log/slog</span>を参照してください。
 
-slogのコア部分はHandler interface<span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#Handler</span>とLogger struct<span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#Logger</span>、この2つによって成り立っています。
+slogのコア部分はHandler interface<span class="footnote">https://pkg.go.dev/log/slog#Handler</span>とLogger struct<span class="footnote">https://pkg.go.dev/log/slog#Logger</span>、この2つによって成り立っています。
 Handlerは自分で自由に実装ができて、渡されたRecordをどこかしらに出力する役目を持ちます。
 LoggerはそんなHandlerにメッセージやデータを渡すため、ログ出力時の値をRecordに加工します。
 Loggerにはカスタマイズの余地はありません。
@@ -79,7 +70,7 @@ type Handler interface {
 
 実際の使い方を見てみましょう。
 まず始めにHandlerを元にLoggerを作ります。
-また、作ったLoggerがパッケージの関数である `slog.DebugCtx` などで使われるよう、デフォルトのLoggerに指定します。
+また、作ったLoggerがパッケージの関数である `slog.DebugContext` などで使われるよう、デフォルトのLoggerに指定します。
 
 <!-- maprange:../code/structured_logging_test.go,newLogger -->
 ```go title=Loggerの作成とデフォルト指定
@@ -88,10 +79,10 @@ slog.SetDefault(logger)
 ```
 <!-- maprange.end -->
 
-似た名前の関数として `slog.NewLogLogger` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#NewLogLogger</span>も存在します。
+似た名前の関数として `slog.NewLogLogger` <span class="footnote">https://pkg.go.dev/log/slog#NewLogLogger</span>も存在します。
 こちらはLoggerを作成する関数ではなくて、 `log` パッケージのLoggerを作る、似て非なるものなので間違えないようにしましょう<span class="footnote">筆者は片手では収まらないくらいの回数間違えました</span>。
 
-Handlerの実装としてslogパッケージには `TextHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#TextHandler</span>と `JSONHandler` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog#JSONHandler</span>の2つが準備されています。
+Handlerの実装としてslogパッケージには `TextHandler` <span class="footnote">https://pkg.go.dev/log/slog#TextHandler</span>と `JSONHandler` <span class="footnote">https://pkg.go.dev/log/slog#JSONHandler</span>の2つが準備されています。
 `slog.NewTextHandler` や `slog.NewJSONHandler` でそれぞれのHandlerを作ることができます。
 
 <!-- maprange:../code/default_handler_test.go,textHandler -->
@@ -99,7 +90,7 @@ Handlerの実装としてslogパッケージには `TextHandler` <span class="fo
 ctx := context.Background()
 h := slog.NewTextHandler(os.Stdout, nil)
 logger := slog.New(h)
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "start processing",
   slog.Bool("verbose", true),
 )
@@ -131,7 +122,7 @@ h := slog.NewTextHandler(
   },
 )
 logger := slog.New(h)
-logger.DebugCtx(
+logger.DebugContext(
   ctx, "start processing",
   slog.Bool("verbose", true),
 )
@@ -151,7 +142,7 @@ verbose!=true?
 
 自分でHandlerを実装する場合でも、通常は標準のJSONHandlerを内部で持ち、渡す値を事前に加工する実装になる場合が大半でしょう。
 
-すでに `slog.InfoCtx` などの例が出てきましたが、ログ出力を行うAPIについて説明します。
+すでに `slog.InfoContext` などの例が出てきましたが、ログ出力を行うAPIについて説明します。
 同じログを出力するのにも、いくつかやり方があるので、ここでは3パターンを掲載しておきます。
 
 `context.Context` を引数に取らない関数もありますが、 `ctx` を引数に取る書き方が普及してほしいという筆者の私情により説明しません。
@@ -161,7 +152,7 @@ slogの実装が直接 `ctx` を利用することはありませんが、その
 
 <!-- maprange:../code/structured_logging_test.go,example1 -->
 ```go title=属性を明示的に組み立てる
-slog.InfoCtx(
+slog.InfoContext(
   ctx, "start processing",
   slog.String("userID", userID),
 )
@@ -170,7 +161,7 @@ slog.InfoCtx(
 
 <!-- maprange:../code/structured_logging_test.go,example2 -->
 ```go title=属性をKey-Valueの2つの値をペアとして組み立てる
-slog.InfoCtx(
+slog.InfoContext(
   ctx, "start processing",
   "userID", userID,
 )
@@ -216,8 +207,8 @@ Handlerによって結果のフォーマットはいくらでも変化します�
 
 続いて、 `slog.Attr` について説明します。
 ログのうち、属性を表す構造がこれです。
-コード中では `slog.InfoCtx(ctx, "msg", "b", true)` のように単なる引数として書かれてますが、Handlerにたどり着く時点では `slog.Attr{Key: "b", Value: slog.BoolValue(true)}` というような構造に変換されています。
-先に見せた例のように、 `slog.InfoCtx(ctx, "msg", slog.Bool("b", true))` が等価な書き方で、 `slog.Bool` は `slog.Attr` の組み立て用の関数というわけです。
+コード中では `slog.InfoContext(ctx, "msg", "b", true)` のように単なる引数として書かれてますが、Handlerにたどり着く時点では `slog.Attr{Key: "b", Value: slog.BoolValue(true)}` というような構造に変換されています。
+先に見せた例のように、 `slog.InfoContext(ctx, "msg", slog.Bool("b", true))` が等価な書き方で、 `slog.Bool` は `slog.Attr` の組み立て用の関数というわけです。
 
 Handlerが直接処理するのは `slog.Record` です。
 次に示す構造と、中に持つ `slog.Attr` を処理できる `func (r Record) Attrs(f func(Attr) bool)` というメソッドを持っています。
@@ -299,7 +290,7 @@ func (user *User) LogValue() slog.Value {
 
 <!-- maprange:../code/log_valuer_test.go,emit -->
 ```go title=前述の2つのLogValuer実装を出力してみる
-slog.InfoCtx(
+slog.InfoContext(
   ctx, "print LogValuer value",
   slog.Any("user", &User{
     ID:       "123",
@@ -357,7 +348,7 @@ JSONHandlerとTextHandler、それぞれでの出力例を確認してみます�
 <!-- maprange:../code/group_test.go,json -->
 ```go title=グループ化された値をJSONHandlerで出力
 logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "print group value",
   slog.Group(
     "group",
@@ -389,7 +380,7 @@ logger.InfoCtx(
 <!-- maprange:../code/group_test.go,text -->
 ```go title=グループ化された値をTextHandlerで出力
 logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "print group value",
   slog.Group(
     "group",
@@ -478,7 +469,7 @@ ls := []slog.Level{
 }
 for _, l := range ls {
   levelVar.Set(l)
-  logger.WarnCtx(ctx, "warning!", "l", l)
+  logger.WarnContext(ctx, "warning!", "l", l)
 }
 ```
 <!-- maprange.end -->
@@ -507,7 +498,7 @@ h := slog.NewJSONHandler(
 )
 
 logger := slog.New(h)
-logger.InfoCtx(ctx, "emit source")
+logger.InfoContext(ctx, "emit source")
 ```
 <!-- maprange.end -->
 
@@ -557,7 +548,7 @@ h := slog.NewJSONHandler(
 )
 
 logger := slog.New(h)
-logger.InfoCtx(ctx, "rename keys")
+logger.InfoContext(ctx, "rename keys")
 ```
 <!-- maprange.end -->
 
@@ -589,7 +580,7 @@ logger := slog.New(h)
 logger = logger.With(
   slog.String("key1", "value1"),
 )
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "emit with With",
   slog.String("key2", "value2"),
 )
@@ -610,7 +601,7 @@ logger.InfoCtx(
 ```go title=Logger.WithGroupを使ってみる
 logger := slog.New(h)
 logger = logger.WithGroup("child")
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "emit with WithGroup",
   slog.String("key3", "value3"),
 )
@@ -641,7 +632,7 @@ logger := slog.New(h)
 logger = logger.With(
   slog.String("key", "value1"),
 )
-logger.InfoCtx(
+logger.InfoContext(
   ctx, "emit... but duplicated keys",
   slog.String("key", "value2"),
   slog.String("key", "value3"),
@@ -671,7 +662,7 @@ CLIツールであっても、なんらかのログ出力ライブラリは必�
 今までだと `logr` <span class="footnote">https://github.com/go-logr/logr</span>を採用していたのですが、その代替としてslogを利用できます。
 
 新規でプログラムを作る場合は、当たり前ですが特になにも考えずにslogを使い始めることができます。
-プログラム中では `slog.DebugCtx` などのパッケージ関数を使ってデフォルトのロガーに処理を任せてます。
+プログラム中では `slog.DebugContext` などのパッケージ関数を使ってデフォルトのロガーに処理を任せてます。
 main関数やテスト用の関数などでそれぞれ適切なHandlerを作成し、それを利用したLoggerをデフォルトに設定します。
 
 テスト用の関数で `*testing.T` などをHandler内部で利用してログ出力を行いたい場合、いくつか注意点があります。
@@ -683,7 +674,7 @@ main関数やテスト用の関数などでそれぞれ適切なHandlerを作成
 筆者の場合、技術書典WebのAPIサーバがそれに該当しました。
 このAPIサーバは大昔はGoogle App Engineで稼働していたため、歴史的経緯でgoogle.golang.org/appengine/log<span class="footnote">https://pkg.go.dev/google.golang.org/appengine/log</span>と同じAPIを持つ自作の互換ライブラリを利用していました。
 これを正規表現での置換を駆使してslog経由での出力に無理やり置き換えました。
-このため、 `slog.DebugCtx(ctx, fmt.Sprintf("BookShelfItemID: %s is already exists", list[0].ID))` のような、本来はメッセージ+属性に分解できるコードがいたるところに残っています。
+このため、 `slog.DebugContext(ctx, fmt.Sprintf("BookShelfItemID: %s is already exists", list[0].ID))` のような、本来はメッセージ+属性に分解できるコードがいたるところに残っています。
 とはいえ、slogへの移行自体はそれなりにサクッとできたので、slog本来の使い方をしたい箇所があれば自由にできるようになりました。
 
 現在、このAPIサーバはGoogle CloudのCloud Run上で稼働しています。
@@ -732,28 +723,20 @@ slogはデフォルトでは `WithContext` や `FromContext` ライクなユー�
 
 slogを間違った使い方をしてしまった時の話をします。
 本書ではAttrの組み立ては明示的に `slog.String("key", "value")` 形式で行っていましたが、引数を2つ別々にわたす、 `"key", "value"` 形式でAttrを指定することもできたのでした。
-では、keyを指定し忘れて、 `"value"` のように1つだけ値を投げ込むとどうなるのか？確認してみましょう。
+keyを指定し忘れて、 `logger.InfoContext(ctx, "test", "value(not-key)")` のようなコードを書いてみます。
 
-<!-- maprange:../code/badkey_test.go,badkey -->
-```go title=Attrに当たる部分がKey-Valueではない
-logger.InfoCtx(ctx, "test", "value(not-key)")
 ```
-<!-- maprange.end -->
-
-これの実行結果は次の通りです。
-Key-Valueのペアがなかったので、Attrの作成に失敗して `BADKEY!` というKeyが表れています。
-
-```test title=Key-Valueのペアじゃなかったので BADKEY! が登場
-time=2023-05-14T17:39:08.989+09:00
-level=INFO
-msg=test
-!BADKEY=value(not-key)
+$ go test .
+./badkey_test.go:15:2: call to slog.Logger.InfoContext missing a final value
+FAIL	github.com/vvakame/tbf14-slog-book/code [build failed]
+FAIL
 ```
 
-今のところ、この問題は静的には検出されません。
-ですが、 `go vet` でこの課題を検出できるようにしようというProposal<span class="footnote">https://github.com/golang/go/issues/59407</span>が提出され、すでにAcceptedになっています。
-そのためのパッチ<span class="footnote">https://go-review.googlesource.com/c/tools/+/487475</span>もレビュー中なので、おそらくGo 1.21リリース時には `go vet` をちゃんと利用していればこの問題は実行より前に検出できるはずです。
-今のうちから、ちゃんと `go vet` を利用するようにしておきましょう。
+うーん、かしこいですね。
+コンパイラがちゃんとエラーにしてくれました。
+さすが標準ライブラリ、サポートが手厚い。
+`golang.org/x/exp/slog` 時代は静的に検出するのが難しかったのですが、改善されたようです。
+`go vet` で検出されるようになるかと思いきや、`go test` などでも問題がレポートされたのは便利でよいですね。
 
 ## slogに不向きなこと
 
@@ -770,8 +753,7 @@ slogに不向きな用途についても解説しておきます。
 ## Handlerのテスト
 
 slogにはHandlerのテストを行ってくれるパッケージがあります。
-`golang.org/x/exp/slog/slogtest` です。
-標準ライブラリになった時には `testing/slogtest` になる予定です。
+`testing/slogtest` です。
 
 存在する関数は1つだけで、 `slogtest.TestHandler` がそれです。
 引数として `Handler` と、生成された出力のパーサーを渡します。
@@ -817,7 +799,10 @@ if err != nil {
 5月11日にslog自体に破壊的変更が入ってしまったので、本項目執筆時点（5月14日）ではだいたいのライブラリは壊れています。
 利用時は各ライブラリのライセンスを確認のうえ適切に使ってください。
 
-また、slog自体がまだexperimentalな存在です。
+8月17日時点で、Go 1.21に移行が済んでいたり済んでいなかったりが混在しています。
+使いたいものがあれば、Go 1.21対応かどうかを各自確認してみてください。
+
+slog自体がまだ始まったばかりのライブラリです。
 よって、市民権を得ている人気ライブラリみたいなものはまだありません。
 悪意のある実装が存在しないかなどの検討は、本書に掲載されている、されていないに関わらず個別によくよく吟味するべきです。
 かくいう筆者も、ここで紹介はするものの実際に利用しているライブラリは今のところありません。

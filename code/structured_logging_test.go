@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -24,14 +24,14 @@ func Test_structuredLogging(t *testing.T) {
 	userID := "a1b2c3"
 
 	// range:example1
-	slog.InfoCtx(
+	slog.InfoContext(
 		ctx, "start processing",
 		slog.String("userID", userID),
 	)
 	// range.end
 
 	// range:example2
-	slog.InfoCtx(
+	slog.InfoContext(
 		ctx, "start processing",
 		"userID", userID,
 	)

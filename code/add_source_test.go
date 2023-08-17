@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -19,6 +19,6 @@ func Test_addSource(t *testing.T) {
 	)
 
 	logger := slog.New(h)
-	logger.InfoCtx(ctx, "emit source")
+	logger.InfoContext(ctx, "emit source")
 	// range.end
 }

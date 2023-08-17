@@ -1,6 +1,6 @@
 module github.com/vvakame/tbf14-slog-book
 
-go 1.20
+go 1.21
 
 require github.com/vvakame/ptproc v0.0.0-20230503103057-c2fcafe1e71b
 

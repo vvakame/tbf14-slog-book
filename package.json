@@ -5,10 +5,9 @@
   "author": "vvakame <vvakame@gmail.com>",
   "scripts": {
     "build:js": "tsc",
-    "build:exp-version": "cd ./code && go list -m -f '{{ .Version }}' golang.org/x/exp > ../articles/exp.version.txt",
     "build:toc": "yarn build:js && node ./src/toc.js > articles/toc.partial.txt",
     "build:md": "go run github.com/vvakame/ptproc/cmd/ptproc -r -g 'articles/*.md'",
-    "prebuild": "yarn build:js && yarn build:exp-version && yarn build:toc && yarn build:md",
+    "prebuild": "yarn build:js && yarn build:toc && yarn build:md",
     "build": "vivliostyle build",
     "build:press": "vivliostyle build --press-ready",
     "preview": "vivliostyle preview"
