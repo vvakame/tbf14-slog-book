@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -38,7 +38,7 @@ func Test_levelAndLeveler(t *testing.T) {
 	}
 	for _, l := range ls {
 		levelVar.Set(l)
-		logger.WarnCtx(ctx, "warning!", "l", l)
+		logger.WarnContext(ctx, "warning!", "l", l)
 	}
 	// range.end
 }

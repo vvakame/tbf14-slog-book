@@ -2,15 +2,15 @@ package code
 
 import (
 	"context"
+	"log/slog"
 	"os"
 	"testing"
 
 	"github.com/vvakame/tbf14-slog-book/code/customhandler"
 	"github.com/vvakame/tbf14-slog-book/code/wrapslog"
-	"golang.org/x/exp/slog"
 )
 
-func Test_xslog_xtesting(t *testing.T) {
+func Test_slog_testing(t *testing.T) {
 	var h slog.Handler = slog.NewTextHandler(os.Stdout, nil)
 	h = h.WithAttrs([]slog.Attr{slog.String("id", "b")})
 	h = h.WithGroup("test")

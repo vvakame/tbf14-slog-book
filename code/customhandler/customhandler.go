@@ -3,10 +3,9 @@ package customhandler
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"runtime"
 	"strconv"
-
-	"golang.org/x/exp/slog"
 )
 
 func New(base slog.Handler) slog.Handler {

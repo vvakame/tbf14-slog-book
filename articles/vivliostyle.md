@@ -102,9 +102,9 @@ ptproc<span class="footnote">https://github.com/vvakame/ptproc</span>（Plain Te
 次のような感じでサンプルコードを本文中に展開できる。
 
 <pre class="language-markdown">
-&lt;!-- mapfile:./exp.version.txt --&gt;
+&lt;!-- mapfile:./ptproc.example.txt --&gt;
 ```
-v0.0.0-20230510235704-dd950f8aeaea
+ptproc.example.txtファイルの中身
 ```
 &lt;!-- mapfile.end --&gt;
 </pre>

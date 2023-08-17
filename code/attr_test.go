@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -21,7 +21,7 @@ func Test_attr(t *testing.T) {
 	// range:textHandler
 	h = slog.NewTextHandler(os.Stdout, nil)
 	logger = slog.New(h)
-	logger.InfoCtx(
+	logger.InfoContext(
 		ctx, "start processing",
 		slog.Bool("verbose", true),
 	)
@@ -30,7 +30,7 @@ func Test_attr(t *testing.T) {
 	// range:jsonHandler
 	h = slog.NewJSONHandler(os.Stdout, nil)
 	logger = slog.New(h)
-	logger.InfoCtx(
+	logger.InfoContext(
 		ctx, "start processing",
 		slog.Bool("verbose", true),
 	)
@@ -50,7 +50,7 @@ func Test_attr(t *testing.T) {
 		},
 	})
 	logger = slog.New(h)
-	logger.DebugCtx(
+	logger.DebugContext(
 		ctx, "start processing",
 		slog.Bool("verbose", true),
 	)
@@ -58,14 +58,14 @@ func Test_attr(t *testing.T) {
 
 	{
 		logger2 := logger.With(slog.String("version", "v1.0.0"))
-		logger2.DebugCtx(
+		logger2.DebugContext(
 			ctx, "start processing",
 			slog.Bool("verbose", true),
 		)
 	}
 	{
 		logger2 := logger.WithGroup("data")
-		logger2.DebugCtx(
+		logger2.DebugContext(
 			ctx, "start processing",
 			slog.Bool("verbose", true),
 		)

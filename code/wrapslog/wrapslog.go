@@ -2,10 +2,9 @@ package wrapslog
 
 import (
 	"context"
+	"log/slog"
 	"runtime"
 	"time"
-
-	"golang.org/x/exp/slog"
 )
 
 func LogAttrs(ctx context.Context, logger *slog.Logger, level slog.Level, msg string, attrs ...slog.Attr) {

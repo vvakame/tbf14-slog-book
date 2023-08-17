@@ -2,19 +2,17 @@
 
 この本はGoの次期標準ライブラリであるslogについて、実際に利用して、それを解説するものです。
 技術書典Web<span class="footnote">https://techbookfest.org/</span>や本書を執筆するために作ったptproc<span class="footnote">https://github.com/vvakame/ptproc</span>などでslogを実用しています。
-本書を執筆している2023年5月の段階では、slog搭載のGo 1.21はまだまだリリースされていないため、`golang.org/x/exp/slog` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog</span> を利用し、これについて解説していきます。
 
-使っている `golang.org/x/exp` のバージョンは次の通りです。
+2023年8月8日くらいにslog搭載のGo 1.21がリリースされました。
+本書の第1版では `golang.org/x/exp/slog` <span class="footnote">https://pkg.go.dev/golang.org/x/exp/slog</span> を対象に解説しました。
+第2版では、サンプルコードを `log/slog` に置き換え、動作確認を行いました。
 
-<!-- mapfile:./exp.version.txt -->
-```
-v0.0.0-20230510235704-dd950f8aeaea
-```
-<!-- mapfile.end -->
-
-本パッケージはexperimentalなだけあって、稀に破壊的変更が入ります。
+`golang.org/x/exp/slog` はexperimentalなだけあって、稀に破壊的変更が入ります。
 5月11日時点で `slog.NewJSONHandler` や `slog.NewTextHandler` 、その他のシグニチャが変わったりしてドヒャりました<span class="footnote">https://github.com/golang/exp/commit/dd950f8aeaea</span>。
-パッケージ利用時は本書記述のものから変更が入っている可能性を念頭においてください。
+
+そして1.21で `InfoCtx` などが `InfoContext` にリネーム<span class="footnote">https://github.com/golang/go/issues/61200</span>されていてもう一度ドヒャりました。
+`golang.org/x/exp/slog` のほうには反映されなかったようです。
+マジか〜。
 
 本書にかかれていることの多くは公式のプロポーザル<span class="footnote">https://go.googlesource.com/proposal/+/master/design/56345-structured-logging.md</span>にも書かれている内容です。
 自分で実用を開始してみてからプロポーザルを読み返したら、「困ったこと全部書いてあるじゃん！」と落ち込んだりもしました。

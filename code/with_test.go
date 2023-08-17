@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -21,7 +21,7 @@ func Test_with(t *testing.T) {
 		logger = logger.With(
 			slog.String("key1", "value1"),
 		)
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "emit with With",
 			slog.String("key2", "value2"),
 		)
@@ -31,7 +31,7 @@ func Test_with(t *testing.T) {
 		// range:withGroup
 		logger := slog.New(h)
 		logger = logger.WithGroup("child")
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "emit with WithGroup",
 			slog.String("key3", "value3"),
 		)
@@ -43,7 +43,7 @@ func Test_with(t *testing.T) {
 		logger = logger.With(
 			slog.String("key", "value1"),
 		)
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "emit... but duplicated keys",
 			slog.String("key", "value2"),
 			slog.String("key", "value3"),

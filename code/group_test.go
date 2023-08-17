@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -22,7 +22,7 @@ func Test_group(t *testing.T) {
 	{
 		// range:json
 		logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "print group value",
 			slog.Group(
 				"group",
@@ -35,7 +35,7 @@ func Test_group(t *testing.T) {
 	{
 		// range:text
 		logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "print group value",
 			slog.Group(
 				"group",

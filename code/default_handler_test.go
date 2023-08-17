@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -18,7 +18,7 @@ func Test_defaultHandler(t *testing.T) {
 		ctx := context.Background()
 		h := slog.NewTextHandler(os.Stdout, nil)
 		logger := slog.New(h)
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "start processing",
 			slog.Bool("verbose", true),
 		)
@@ -30,7 +30,7 @@ func Test_defaultHandler(t *testing.T) {
 		ctx := context.Background()
 		h := slog.NewJSONHandler(os.Stdout, nil)
 		logger := slog.New(h)
-		logger.InfoCtx(
+		logger.InfoContext(
 			ctx, "start processing",
 			slog.Bool("verbose", true),
 		)
@@ -59,7 +59,7 @@ func Test_defaultHandler(t *testing.T) {
 			},
 		)
 		logger := slog.New(h)
-		logger.DebugCtx(
+		logger.DebugContext(
 			ctx, "start processing",
 			slog.Bool("verbose", true),
 		)

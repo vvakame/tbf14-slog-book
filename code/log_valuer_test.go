@@ -2,7 +2,7 @@ package code
 
 import (
 	"context"
-	"golang.org/x/exp/slog"
+	"log/slog"
 	"os"
 	"testing"
 )
@@ -48,7 +48,7 @@ func Test_logValuer(t *testing.T) {
 	ctx := context.Background()
 
 	// range:emit
-	slog.InfoCtx(
+	slog.InfoContext(
 		ctx, "print LogValuer value",
 		slog.Any("user", &User{
 			ID:       "123",

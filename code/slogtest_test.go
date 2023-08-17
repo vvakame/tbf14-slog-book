@@ -3,11 +3,10 @@ package code
 import (
 	"bytes"
 	"encoding/json"
+	"log/slog"
 	"strings"
 	"testing"
-
-	"golang.org/x/exp/slog"
-	"golang.org/x/exp/slog/slogtest"
+	"testing/slogtest"
 )
 
 func Test_slogtest(t *testing.T) {
